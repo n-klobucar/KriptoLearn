@@ -327,110 +327,111 @@ namespace KriptoLearn
 
                     #region DES
                     case "d":
-                        #region stari des
-                        //DES des = new DES();
-                        //Console.WriteLine("Odabrali ste DES.");
+                    #region stari des
+                    //DES des = new DES();
+                    //Console.WriteLine("Odabrali ste DES.");
 
-                        ////zakrivanje ili raskrivanje
-                        //odabir = provjeraPostupka();
+                    ////zakrivanje ili raskrivanje
+                    //odabir = provjeraPostupka();
 
-                        //Console.Write("Unesite poruku: ");
-                        //jasnopis = Console.ReadLine();
-                        ////korisnik odustaje od programa
-                        //if (jasnopis == "x" || jasnopis == "X")
-                        //{
-                        //    odgovor = "k";
-                        //    break;
-                        //}
-                        //poruka = NormalizacijaDvoglasa(jasnopis);
-                        //bool ascii = false;
-                        //foreach (string slovo in poruka)
-                        //{
-                        //    if (slovo == "Č" || slovo == "Ć"  || slovo == "Đ" || slovo == "Dž" || slovo == "Nj" || slovo == "Lj" || slovo == "Š" || slovo == "Ž")
-                        //    {
-                        //        ascii = true;
-                        //    }
-                        //}
-                        //if (ascii) { poruka.Clear(); }
-                        //while (poruka.Count() == 0)
-                        //{
-                        //    Console.WriteLine("Pogreška u formatu poruke.");
-                        //    Console.Write("Unesite poruku: ");
-                        //    jasnopis = Console.ReadLine();
-                        //    poruka = NormalizacijaDvoglasa(jasnopis);
-                        //}
-                        //des.Zakrij(poruka);
-                        #endregion
-                        DES des = DES.Create();
-                        Console.WriteLine("Odabrali ste DES.");
+                    //Console.Write("Unesite poruku: ");
+                    //jasnopis = Console.ReadLine();
+                    ////korisnik odustaje od programa
+                    //if (jasnopis == "x" || jasnopis == "X")
+                    //{
+                    //    odgovor = "k";
+                    //    break;
+                    //}
+                    //poruka = NormalizacijaDvoglasa(jasnopis);
+                    //bool ascii = false;
+                    //foreach (string slovo in poruka)
+                    //{
+                    //    if (slovo == "Č" || slovo == "Ć"  || slovo == "Đ" || slovo == "Dž" || slovo == "Nj" || slovo == "Lj" || slovo == "Š" || slovo == "Ž")
+                    //    {
+                    //        ascii = true;
+                    //    }
+                    //}
+                    //if (ascii) { poruka.Clear(); }
+                    //while (poruka.Count() == 0)
+                    //{
+                    //    Console.WriteLine("Pogreška u formatu poruke.");
+                    //    Console.Write("Unesite poruku: ");
+                    //    jasnopis = Console.ReadLine();
+                    //    poruka = NormalizacijaDvoglasa(jasnopis);
+                    //}
+                    //des.Zakrij(poruka);
+                    #endregion
+                    #region DES
+                    //DES des = DES.Create();
+                    //Console.WriteLine("Odabrali ste DES.");
 
-                        //zakrivanje ili raskrivanje
-                        odabir = provjeraPostupka();
+                    ////zakrivanje ili raskrivanje
+                    //odabir = provjeraPostupka();
 
-                        Console.Write("Unesite poruku koristeći slova engleske abecede: ");
-                        jasnopis = Console.ReadLine();
+                    //Console.Write("Unesite poruku koristeći slova engleske abecede: ");
+                    //jasnopis = Console.ReadLine();
 
-                        //korisnik odustaje od programa
-                        if (jasnopis == "x" || jasnopis == "X")
-                        {
-                            odgovor = "k";
-                            break;
-                        }
+                    ////korisnik odustaje od programa
+                    //if (jasnopis == "x" || jasnopis == "X")
+                    //{
+                    //    odgovor = "k";
+                    //    break;
+                    //}
 
-                        //provjera slova engleske abecede
-                        poruka = NormalizacijaDvoglasa(jasnopis);
-                        bool ascii = false;
-                        foreach (string slovo in poruka)
-                        {
-                            if (slovo == "Č" || slovo == "Ć" || slovo == "Đ" || slovo == "Dž" || slovo == "Nj" || slovo == "Lj" || slovo == "Š" || slovo == "Ž")
-                            {
-                                ascii = true;
-                            }
-                        }
-                        if (ascii) { poruka.Clear(); } //ako postoje slova koja nisu ASCII, onda obriši cijelu poruku
+                    ////provjera slova engleske abecede
+                    //poruka = NormalizacijaDvoglasa(jasnopis);
+                    //bool ascii = false;
+                    //foreach (string slovo in poruka)
+                    //{
+                    //    if (slovo == "Č" || slovo == "Ć" || slovo == "Đ" || slovo == "Dž" || slovo == "Nj" || slovo == "Lj" || slovo == "Š" || slovo == "Ž")
+                    //    {
+                    //        ascii = true;
+                    //    }
+                    //}
+                    //if (ascii) { poruka.Clear(); } //ako postoje slova koja nisu ASCII, onda obriši cijelu poruku
 
-                        while (poruka.Count() == 0)
-                        {
-                            Console.WriteLine("Pogreška u formatu poruke.");
-                            Console.Write("Unesite poruku koristeći SAMO znakove engleske abecede: ");
-                            jasnopis = Console.ReadLine();
-                            poruka = NormalizacijaDvoglasa(jasnopis);
-                        }
+                    //while (poruka.Count() == 0)
+                    //{
+                    //    Console.WriteLine("Pogreška u formatu poruke.");
+                    //    Console.Write("Unesite poruku koristeći SAMO znakove engleske abecede: ");
+                    //    jasnopis = Console.ReadLine();
+                    //    poruka = NormalizacijaDvoglasa(jasnopis);
+                    //}
 
-                        //pretvaranje poruke iz liste u string
-                        string porukaString = "";
-                        foreach (string slovo in poruka)
-                        {
-                            porukaString += slovo;
-                        }
+                    ////pretvaranje poruke iz liste u string
+                    //string porukaString = "";
+                    //foreach (string slovo in poruka)
+                    //{
+                    //    porukaString += slovo;
+                    //}
 
-                        //ako je odabrano zakrivanje
-                        if(odabir == "z")
-                        {
-                            byte[] porukaPodaci = Des.EncryptTextToMemory(porukaString, des.Key, des.IV);
+                    ////ako je odabrano zakrivanje
+                    //if(odabir == "z")
+                    //{
+                    //    byte[] porukaPodaci = Des.EncryptTextToMemory(porukaString, des.Key, des.IV);
 
-                            string zakritak = string.Join(", ", porukaPodaci);
-                            string ključDES = string.Join("",des.Key);
+                    //    string zakritak = string.Join(", ", porukaPodaci);
+                    //    string ključDES = string.Join("",des.Key);
 
-                            Console.WriteLine("Ispis ključa: {0}", ključDES);
-                            Console.WriteLine("Ispis zakritka:");
-                            Console.WriteLine(zakritak);
-                        }
-                        else
-                        {
-                            Console.Write("Unesite ključ: ");
-                            string ključDES = Console.ReadLine();
-                            byte[] ključdes = Encoding.UTF8.GetBytes(ključDES);
-                            des.Key = ključdes;
+                    //    Console.WriteLine("Ispis ključa: {0}", ključDES);
+                    //    Console.WriteLine("Ispis zakritka:");
+                    //    Console.WriteLine(zakritak);
+                    //}
+                    //else
+                    //{
+                    //    Console.Write("Unesite ključ: ");
+                    //    string ključDES = Console.ReadLine();
+                    //    byte[] ključdes = Encoding.UTF8.GetBytes(ključDES);
+                    //    des.Key = ključdes;
 
-                            byte[] porukaPodaci = Encoding.ASCII.GetBytes(porukaString);
-                            string raskritak = Des.DecryptTextFromMemory(porukaPodaci, des.Key, des.IV);
-                            Console.WriteLine("Ispis raskritka: {0}", raskritak);
-                            //string raskritak=Des.DecryptTextFromMemory(porukaPodaci, )
-                        }
-                        poruka.Clear();
-                        odgovor = "k";
-                        break;
+                    //    byte[] porukaPodaci = Encoding.ASCII.GetBytes(porukaString);
+                    //    string raskritak = Des.DecryptTextFromMemory(porukaPodaci, des.Key, des.IV);
+                    //    Console.WriteLine("Ispis raskritka: {0}", raskritak);
+                    //    //string raskritak=Des.DecryptTextFromMemory(porukaPodaci, )
+                    //}
+                    //poruka.Clear();
+                    //odgovor = "k";
+                    //break;
                     #endregion
 
                     #region RSA
