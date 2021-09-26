@@ -325,7 +325,7 @@ namespace KriptoLearn
                         break;
                     #endregion
 
-                    #region DES
+                    //#region DES
                     case "d":
                     #region stari des
                     //DES des = new DES();
@@ -361,6 +361,7 @@ namespace KriptoLearn
                     //}
                     //des.Zakrij(poruka);
                     #endregion
+
                     #region DES
                     //DES des = DES.Create();
                     //Console.WriteLine("Odabrali ste DES.");
@@ -432,6 +433,10 @@ namespace KriptoLearn
                     //poruka.Clear();
                     //odgovor = "k";
                     //break;
+                    #endregion
+
+                    #region novi DES
+
                     #endregion
 
                     #region RSA
