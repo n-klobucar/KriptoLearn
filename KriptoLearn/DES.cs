@@ -132,7 +132,21 @@ namespace KriptoLearn
 
         public void Enkriptiraj(string ulaz)
         {
-            DES des = DES.Create();
+            //DES des = DES.Create();
+            //byte[] ključ = des.Key;
+            //des.CreateEncryptor(ključ, des.IV);
+            long tDuljina = 0;
+            long konDuljina = ulaz.Length;
+            int duljina;
+            DES des = new DESCryptoServiceProvider();
+            byte[] ulazByte = Encoding.ASCII.GetBytes(ulaz);
+            MemoryStream poruka = new MemoryStream(ulazByte);
+            CryptoStream zakritak = new CryptoStream(poruka, des.CreateEncryptor(des.Key, des.IV), CryptoStreamMode.Write);
+            while (tDuljina<konDuljina)
+            {
+                //duljina = ulazByte.
+                //zakritak.Write()
+            }
         }
     }
 }
