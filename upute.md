@@ -1,1 +1,1 @@
-Za odabir kritopisnog sustava upiši:
+Za odabir kritopisnog sustava upiši slovo:
