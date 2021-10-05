@@ -6,15 +6,14 @@ using System.Threading.Tasks;
 
 namespace KriptoLearn
 {
-    class Zamjenski
+    class Zamjenski : KritopisniSustav
     {
-        private List<string> jasnopisniSlovored = new List<string>() {"A", "B", "C", "Č", "Ć", "D", "Dž", "Đ", "E", "F", "G", "H", "I", "J", "K",
-                                            "L", "Lj", "M", "N", "Nj", "O", "P", "R", "S", "Š", "T", "U", "V", "Z", "Ž"};
         public List<string> zakritniSlovored = new List<string>();
-        public List<string> jasnopis = new List<string>();
-        public void ZamijeniBrojem(int broj, List<string> poruka, string opcija) //radi
+
+        //functions
+        List<string> KreirajZakritniSlovoredBrojem(List<string> jasnopisniSlovored, int broj)
         {
-            Console.WriteLine("jasnopisni slovored:");
+            Console.WriteLine("\njasnopisni slovored:");
             foreach (string slovo in jasnopisniSlovored)
             {
                 Console.Write(slovo + " ");
@@ -32,10 +31,9 @@ namespace KriptoLearn
                 Console.Write(slovo + " ");
                 zakritniSlovored.Add(slovo);
             }
-            if (opcija == "r") { Raskrij(zakritniSlovored, poruka); }
-            else { Zakrij(zakritniSlovored, poruka); }
+            return zakritniSlovored;
         }
-        public void ZamijeniKljučem(List<string> pomak, List<string> poruka, string opcija) //radi
+        List<string> KreirajZakritniSlovoredKljučem(List<string> jasnopisniSlovored, List<string> pomak)
         {
             int brZnakova = pomak.Distinct().Count();
             List<string> privremeniZakritni = new List<string>();
@@ -80,7 +78,7 @@ namespace KriptoLearn
                     catch { continue; }
                 }
             }
-            Console.WriteLine("\njasnopisni slovored:");
+            Console.WriteLine("\n\njasnopisni slovored:");
             foreach (string slovo in jasnopisniSlovored)
             {
                 Console.Write(slovo + " ");
@@ -90,61 +88,102 @@ namespace KriptoLearn
             {
                 Console.Write(slovo + " ");
             }
-            if (opcija == "r") { Raskrij(zakritniSlovored, poruka); }
-            else if (opcija == "") { }
-            else { Zakrij(zakritniSlovored, poruka); }
+            return zakritniSlovored;
         }
-        public void Zakrij(List<string> kritopisniSlovored, List<string> poruka) //radi
+        void KreirajZakritakZamjenskim()
         {
-            string zakritak = "";
-            Console.WriteLine();
-            //ispis zakritka
-            foreach (string slovo in poruka)
+            foreach (string slovo in jasnopis)
             {
                 try
                 {
-                    //Console.WriteLine(slovo);
                     int indeks = jasnopisniSlovored.IndexOf(slovo);
-                    //Console.WriteLine("indeks: {0}", indeks);
-                    zakritak += kritopisniSlovored.ElementAt(indeks);
+                    zakritak.Add(zakritniSlovored.ElementAt(indeks));
                 }
                 catch (Exception)
                 {
-                    //Console.WriteLine("u exceptionu sam za posebne znakove.");
-                    zakritak += slovo;
+                    zakritak.Add(slovo);
                 }
             }
-            Console.WriteLine("\nZakritak se dobije tako da se svako slovo jasnopisa zamijeni pripadajućim slovom kritopisnog slovoreda, a interpunkcije i ostali posebni znakovi se samo prepišu.");
-            Console.WriteLine("\nZakritak glasi:");
-            Console.Write(zakritak);
+            Console.WriteLine("\n\nZakritak se dobije tako da se svako slovo jasnopisa zamijeni pripadajućim slovom kritopisnog slovoreda, a interpunkcije i ostali posebni znakovi se samo prepišu.\n");
         }
-        public void Raskrij(List<string> kritopisniSlovored, List<string> poruka, bool složeni = false) //radi
+        public List<string> ZakrijZamjenskim(List<string> jasnopis, int broj)
         {
-            Console.WriteLine();
-            foreach (string slovo in poruka)
-            {
-                try
-                {
-                    //Console.WriteLine(slovo);
-                    int indeks = kritopisniSlovored.IndexOf(slovo);
-                    //Console.WriteLine("indeks: {0}", indeks);
-                    jasnopis.Add(jasnopisniSlovored.ElementAt(indeks));
-                }
-                catch (Exception)
-                {
-                    //Console.WriteLine("u exceptionu sam za posebne znakove.");
-                    jasnopis.Add(slovo);
-                }
-            }
-            if (!složeni)
-            {
-                Console.WriteLine("\nJasnopis se dobije tako da se svako slovo zakritka zamijeni pripadajućim slovom jasnopisnog slovoreda, a ostali posebni znakovi se samo prepišu.");
-                Console.WriteLine("\nJasnopis glasi:");
-                foreach (string slovo in jasnopis)
-                {
-                    Console.Write(slovo);
-                }
-            }
+            List<string> zakritniSlovored = KreirajZakritniSlovoredBrojem(jasnopisniSlovored, broj);
+            
+            KreirajZakritakZamjenskim();
+            return zakritak;
         }
+        public List<string> ZakrijZamjenskim(List<string> poruka, List<string> pomak)
+        {
+            List<string> zakritniSlovored = KreirajZakritniSlovoredKljučem(jasnopisniSlovored, pomak);
+
+            KreirajZakritakZamjenskim();
+            return zakritak;
+        }
+        public List<string> RaskrijZamjenskim(List<string> poruka, int broj)
+        {
+            List<string> zakritniSlovored = KreirajZakritniSlovoredBrojem(jasnopisniSlovored, broj);
+
+            return zakritak;
+        }
+        public List<string> RaskrijZamjenskim(List<string> poruka, List<string> pomak)
+        {
+            List<string> zakritniSlovored = KreirajZakritniSlovoredKljučem(jasnopisniSlovored, pomak);
+
+            return zakritak;
+        }
+
+        //public void Zakrij(List<string> kritopisniSlovored, List<string> poruka) //radi
+        //{
+        //    string zakritak = "";
+        //    Console.WriteLine();
+        //    //ispis zakritka
+        //    foreach (string slovo in poruka)
+        //    {
+        //        try
+        //        {
+        //            //Console.WriteLine(slovo);
+        //            int indeks = jasnopisniSlovored.IndexOf(slovo);
+        //            //Console.WriteLine("indeks: {0}", indeks);
+        //            zakritak += kritopisniSlovored.ElementAt(indeks);
+        //        }
+        //        catch (Exception)
+        //        {
+        //            //Console.WriteLine("u exceptionu sam za posebne znakove.");
+        //            zakritak += slovo;
+        //        }
+        //    }
+        //    Console.WriteLine("\nZakritak se dobije tako da se svako slovo jasnopisa zamijeni pripadajućim slovom kritopisnog slovoreda, a interpunkcije i ostali posebni znakovi se samo prepišu.");
+        //    Console.WriteLine("\nZakritak glasi:");
+        //    Console.Write(zakritak);
+        //}
+        //public void Raskrij(List<string> kritopisniSlovored, List<string> poruka, bool složeni = false) //radi
+        //{
+        //    Console.WriteLine();
+        //    foreach (string slovo in poruka)
+        //    {
+        //        try
+        //        {
+        //            //Console.WriteLine(slovo);
+        //            int indeks = kritopisniSlovored.IndexOf(slovo);
+        //            //Console.WriteLine("indeks: {0}", indeks);
+        //            jasnopis.Add(jasnopisniSlovored.ElementAt(indeks));
+        //        }
+        //        catch (Exception)
+        //        {
+        //            //Console.WriteLine("u exceptionu sam za posebne znakove.");
+        //            jasnopis.Add(slovo);
+        //        }
+        //    }
+        //    if (!složeni)
+        //    {
+        //        Console.WriteLine("\nJasnopis se dobije tako da se svako slovo zakritka zamijeni pripadajućim slovom jasnopisnog slovoreda, a ostali posebni znakovi se samo prepišu.");
+        //        Console.WriteLine("\nJasnopis glasi:");
+        //        foreach (string slovo in jasnopis)
+        //        {
+        //            Console.Write(slovo);
+        //        }
+        //    }
+        //}
     }
 }

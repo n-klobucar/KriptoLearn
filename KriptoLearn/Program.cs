@@ -19,11 +19,7 @@ namespace KriptoLearn
             Console.OutputEncoding = Encoding.UTF8;
 
             //deklaracija varijabli
-            List<string> abeceda = new List<string>() {"A", "B", "C", "Č", "Ć", "D", "Dž", "Đ", "E", "F", "G", "H", "I", "J", "K",
-                                            "L", "Lj", "M", "N", "Nj", "O", "P", "R", "S", "Š", "T", "U", "V", "Z", "Ž"};
-            List<string> poruka = new List<string>();
-            List<string> ključ = new List<string>();
-            string jasnopis;
+            string poruka;
 
             //funkcije
             string Odabir()
@@ -34,6 +30,8 @@ namespace KriptoLearn
             }
             List<string> NormalizacijaDvoglasa(string tekst)
             {
+                List<string> abeceda = new List<string>() {"A", "B", "C", "Č", "Ć", "D", "Dž", "Đ", "E", "F", "G", "H", "I", "J", "K",
+                                            "L", "Lj", "M", "N", "Nj", "O", "P", "R", "S", "Š", "T", "U", "V", "Z", "Ž"};
                 List<string> uređeniTekst = new List<string>();
                 for (int i = 0; i < tekst.Length; i++)
                 {
@@ -57,7 +55,7 @@ namespace KriptoLearn
                 if (greška) { uređeniTekst.Clear(); }
                 return uređeniTekst;
             }
-            string provjeraPostupka()
+            bool provjeraPostupka()
             {
                 Console.Write("Upišite 'r' za raskrivanje ili 'z' za zakrivanje: ");
                 string radnja = Console.ReadLine().ToLower();
@@ -67,7 +65,32 @@ namespace KriptoLearn
                     Console.Write("Upišite 'r' za raskrivanje ili 'z' za zakrivanje: ");
                     radnja = Console.ReadLine().ToLower();
                 }
-                return radnja;
+                if (radnja == "z") { return true; }
+                else { return false; }
+            }
+            void IspisRješenja(bool zakrivanje, List<string> rezultat)
+            {
+                if (zakrivanje)
+                {
+                    Console.WriteLine("zakritak:");
+                    foreach (string slovo in rezultat)
+                    {
+                        Console.Write(slovo);
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("jasnopis:");
+                    foreach (string slovo in rezultat)
+                    {
+                        Console.Write(slovo);
+                    }
+                }
+            }
+            bool KorisnikOdustao(string unos)
+            {
+                if (unos.ToLower() == "x") { return true; }
+                else { return false; }
             }
 
             string odgovor = Odabir().ToLower();
@@ -79,413 +102,418 @@ namespace KriptoLearn
                     case "z":
                         Zamjenski zamjenski = new Zamjenski();
                         Console.WriteLine("Odabrali ste zamjenski kritopis.");
-
-                        string raskrivanje = provjeraPostupka();
+                        bool zakrivanje = provjeraPostupka();
 
                         Console.Write("Unesite poruku: ");
-                        jasnopis = Console.ReadLine();
-                        //korisnik odustaje od programa
-                        if (jasnopis == "x" || jasnopis == "X")
+                        poruka = Console.ReadLine();
+                        if (KorisnikOdustao(poruka))
                         {
                             odgovor = "k";
                             break;
                         }
-                        poruka = NormalizacijaDvoglasa(jasnopis);
-                        while (poruka.Count() == 0)
+
+                        //provjera poruke
+                        zamjenski.jasnopis = NormalizacijaDvoglasa(poruka);
+                        while (zamjenski.jasnopis.Count() == 0)
                         {
                             Console.WriteLine("Pogreška u formatu poruke.");
                             Console.Write("Unesite poruku: ");
-                            jasnopis = Console.ReadLine();
-                            poruka = NormalizacijaDvoglasa(jasnopis);
+                            poruka = Console.ReadLine();
+                            zamjenski.jasnopis = NormalizacijaDvoglasa(poruka);
                         }
+
                         //provjera ključa
                         Console.Write("Unesite broj ili ključ za pomak: ");
-                        string unosZamjenski = Console.ReadLine();
-                        //korisnik odustaje od programa
-                        if (unosZamjenski == "x" || unosZamjenski == "X")
+                        string ključ = Console.ReadLine();
+                        if (KorisnikOdustao(poruka))
                         {
                             odgovor = "k";
                             break;
                         }
+
+                        //--------------------------------provjera ključa
                         bool greška = true;
                         while (greška)
                         {
-                            if (unosZamjenski.All(char.IsDigit)) //ako je unos brojčani
+                            if (ključ.All(char.IsDigit)) //ako je unos brojčani ----- provjera broja
                             {
-                                int pomak = int.Parse(unosZamjenski);
+                                int pomak = int.Parse(ključ);
                                 if (pomak > 30 || pomak < 0)
                                 {
                                     Console.WriteLine("Niste unijeli valjani broj. [0-29]");
                                     Console.Write("Unesite broj ili ključ za pomak: ");
-                                    unosZamjenski = Console.ReadLine();
+                                    ključ = Console.ReadLine();
                                 }
                                 else
                                 {
                                     greška = false;
-                                    zamjenski.ZamijeniBrojem(pomak, poruka, raskrivanje);
+                                    if (zakrivanje) { zamjenski.ZakrijZamjenskim(zamjenski.jasnopis, pomak); }
+                                    else { zamjenski.RaskrijZamjenskim(zamjenski.jasnopis, pomak); }
                                 }
                             }
-                            else if (unosZamjenski.All(char.IsLetter)) //ako su uneseni samo znakovi
+                            else if (ključ.All(char.IsLetter)) //ako su uneseni samo znakovi ---- provjera slova
                             {
-                                ključ = NormalizacijaDvoglasa(unosZamjenski);
-                                while (ključ.Count() == 0)
+                                List<string> pomak = NormalizacijaDvoglasa(ključ);
+                                while (pomak.Count() == 0)
                                 {
                                     Console.WriteLine("Pogreška u formatu ključa.");
                                     Console.Write("Unesite broj ili ključ za pomak: ");
-                                    unosZamjenski = Console.ReadLine();
-                                    ključ = NormalizacijaDvoglasa(unosZamjenski);
+                                    ključ = Console.ReadLine();
+                                    pomak = NormalizacijaDvoglasa(ključ);
                                 }
                                 greška = false;
-                                zamjenski.ZamijeniKljučem(ključ, poruka, raskrivanje);
+                                if (zakrivanje) { zamjenski.ZakrijZamjenskim(zamjenski.jasnopis, pomak); }
+                                else { zamjenski.RaskrijZamjenskim(zamjenski.jasnopis, pomak); }
                             }
                             else //ako je unesena kombinacija slova i brojeva
                             {
                                 Console.WriteLine("Niste unijeli dobar ključ.");
                                 Console.Write("Unesite broj ili ključ za pomak: ");
-                                unosZamjenski = Console.ReadLine();
+                                ključ = Console.ReadLine();
                             }
                         }
-                        ključ.Clear();
-                        poruka.Clear();
+                        IspisRješenja(zakrivanje, zamjenski.zakritak);
+                        zamjenski.zakritak.Clear();
+                        zamjenski.jasnopis.Clear();
                         odgovor = "k";
                         break;
                     #endregion
 
-                    #region Premještajni
-                    case "p":
-                        Premještajni premještajni = new Premještajni();
-                        Console.WriteLine("Odabrali ste premještajni");
-                        Console.Write("Upišite 'j' za jednostruki ili 'd' za dvostruki stupačni sustav: ");
-                        string vrsta = Console.ReadLine().ToLower();
-                        //korisnik odustaje od programa
-                        if (vrsta == "x" || vrsta == "X")
-                        {
-                            odgovor = "k";
-                            break;
-                        }
-                        while (vrsta != "j" && vrsta != "d")
-                        {
-                            Console.WriteLine("Pokušajte ponovo!");
-                            Console.Write("Upišite 'j' za jednostruki ili 'd' za dvostruki stupačni sustav: ");
-                            vrsta = Console.ReadLine().ToLower();
-                        }
-                        if (vrsta == "j") { Console.WriteLine("Odabrali ste jednostruki stupačni premještaj."); }
-                        else { Console.WriteLine("Odabrali ste dvostruki stupačni premještaj."); }
+                    //#region Premještajni
+                    //case "p":
+                    //    Premještajni premještajni = new Premještajni();
+                    //    Console.WriteLine("Odabrali ste premještajni");
+                    //    Console.Write("Upišite 'j' za jednostruki ili 'd' za dvostruki stupačni sustav: ");
+                    //    string vrsta = Console.ReadLine().ToLower();
+                    //    //korisnik odustaje od programa
+                    //    if (vrsta == "x" || vrsta == "X")
+                    //    {
+                    //        odgovor = "k";
+                    //        break;
+                    //    }
+                    //    while (vrsta != "j" && vrsta != "d")
+                    //    {
+                    //        Console.WriteLine("Pokušajte ponovo!");
+                    //        Console.Write("Upišite 'j' za jednostruki ili 'd' za dvostruki stupačni sustav: ");
+                    //        vrsta = Console.ReadLine().ToLower();
+                    //    }
+                    //    if (vrsta == "j") { Console.WriteLine("Odabrali ste jednostruki stupačni premještaj."); }
+                    //    else { Console.WriteLine("Odabrali ste dvostruki stupačni premještaj."); }
 
-                        string postupak = provjeraPostupka(); //raskrivanje ili zakrivanje
+                    //    string postupak = provjeraPostupka(); //raskrivanje ili zakrivanje
 
-                        Console.Write("Unesite poruku: ");
-                        jasnopis = Console.ReadLine();
-                        //korisnik odustaje od programa
-                        if (jasnopis == "x" || jasnopis == "X")
-                        {
-                            odgovor = "k";
-                            break;
-                        }
-                        poruka = NormalizacijaDvoglasa(jasnopis);
-                        while (poruka.Count() == 0)
-                        {
-                            Console.WriteLine("Pogreška u formatu poruke.");
-                            Console.Write("Unesite poruku: ");
-                            jasnopis = Console.ReadLine();
-                            poruka = NormalizacijaDvoglasa(jasnopis);
-                        }
+                    //    Console.Write("Unesite poruku: ");
+                    //    jasnopis = Console.ReadLine();
+                    //    //korisnik odustaje od programa
+                    //    if (jasnopis == "x" || jasnopis == "X")
+                    //    {
+                    //        odgovor = "k";
+                    //        break;
+                    //    }
+                    //    poruka = NormalizacijaDvoglasa(jasnopis);
+                    //    while (poruka.Count() == 0)
+                    //    {
+                    //        Console.WriteLine("Pogreška u formatu poruke.");
+                    //        Console.Write("Unesite poruku: ");
+                    //        jasnopis = Console.ReadLine();
+                    //        poruka = NormalizacijaDvoglasa(jasnopis);
+                    //    }
 
-                        //string ključPremještajni = provjeraKljuča();
-                        Console.Write("Unesite ključ: ");
-                        string ključPremještajni = Console.ReadLine();
-                        //korisnik odustaje od programa
-                        if (ključPremještajni == "x" || ključPremještajni == "X")
-                        {
-                            odgovor = "k";
-                            break;
-                        }
-                        ključ = NormalizacijaDvoglasa(ključPremještajni);
-                        while (ključ.Count() == 0)
-                        {
-                            Console.WriteLine("Pogreška u formatu ključa.");
-                            Console.Write("Unesite ključ: ");
-                            ključPremještajni = Console.ReadLine();
-                            ključ = NormalizacijaDvoglasa(ključPremještajni);
-                        }
+                    //    //string ključPremještajni = provjeraKljuča();
+                    //    Console.Write("Unesite ključ: ");
+                    //    string ključPremještajni = Console.ReadLine();
+                    //    //korisnik odustaje od programa
+                    //    if (ključPremještajni == "x" || ključPremještajni == "X")
+                    //    {
+                    //        odgovor = "k";
+                    //        break;
+                    //    }
+                    //    ključ = NormalizacijaDvoglasa(ključPremještajni);
+                    //    while (ključ.Count() == 0)
+                    //    {
+                    //        Console.WriteLine("Pogreška u formatu ključa.");
+                    //        Console.Write("Unesite ključ: ");
+                    //        ključPremještajni = Console.ReadLine();
+                    //        ključ = NormalizacijaDvoglasa(ključPremještajni);
+                    //    }
 
-                        if (postupak == "z")
-                        {
-                            if (vrsta == "d") { premještajni.Zakrij(ključ, poruka, true); }
-                            else { premještajni.Zakrij(ključ, poruka); }
-                        }
-                        else
-                        {
-                            if (vrsta == "d") { premještajni.Raskrij(ključ, poruka, true); }
-                            else { premještajni.Raskrij(ključ, poruka); }
-                        }
-                        poruka.Clear();
-                        ključ.Clear();
-                        odgovor = "k";
-                        break;
-                    #endregion
+                    //    if (postupak == "z")
+                    //    {
+                    //        if (vrsta == "d") { premještajni.Zakrij(ključ, poruka, true); }
+                    //        else { premještajni.Zakrij(ključ, poruka); }
+                    //    }
+                    //    else
+                    //    {
+                    //        if (vrsta == "d") { premještajni.Raskrij(ključ, poruka, true); }
+                    //        else { premještajni.Raskrij(ključ, poruka); }
+                    //    }
+                    //    poruka.Clear();
+                    //    ključ.Clear();
+                    //    odgovor = "k";
+                    //    break;
+                    //#endregion
 
-                    #region Složeni
-                    case "s":
-                        Složeni složeni = new Složeni();
-                        Console.WriteLine("Odabrali ste složeni");
+                    //#region Složeni
+                    //case "s":
+                    //    Složeni složeni = new Složeni();
+                    //    Console.WriteLine("Odabrali ste složeni");
 
-                        string radnja = provjeraPostupka();
+                    //    string radnja = provjeraPostupka();
 
-                        Console.Write("Unesite poruku: ");
-                        jasnopis = Console.ReadLine();
-                        //korisnik odustaje od programa
-                        if (jasnopis == "x" || jasnopis == "X")
-                        {
-                            odgovor = "k";
-                            break;
-                        }
-                        poruka = NormalizacijaDvoglasa(jasnopis);
-                        while (poruka.Count() == 0)
-                        {
-                            Console.WriteLine("Pogreška u formatu poruke.");
-                            Console.Write("Unesite poruku: ");
-                            jasnopis = Console.ReadLine();
-                            poruka = NormalizacijaDvoglasa(jasnopis);
-                        }
+                    //    Console.Write("Unesite poruku: ");
+                    //    jasnopis = Console.ReadLine();
+                    //    //korisnik odustaje od programa
+                    //    if (jasnopis == "x" || jasnopis == "X")
+                    //    {
+                    //        odgovor = "k";
+                    //        break;
+                    //    }
+                    //    poruka = NormalizacijaDvoglasa(jasnopis);
+                    //    while (poruka.Count() == 0)
+                    //    {
+                    //        Console.WriteLine("Pogreška u formatu poruke.");
+                    //        Console.Write("Unesite poruku: ");
+                    //        jasnopis = Console.ReadLine();
+                    //        poruka = NormalizacijaDvoglasa(jasnopis);
+                    //    }
 
-                        Console.Write("Unesite ključ: ");
-                        string ključSloženi = Console.ReadLine();
-                        //korisnik odustaje od programa
-                        if (ključSloženi == "x" || ključSloženi == "X")
-                        {
-                            odgovor = "k";
-                            break;
-                        }
-                        ključ = NormalizacijaDvoglasa(ključSloženi);
-                        while (ključ.Count() == 0)
-                        {
-                            Console.WriteLine("Pogreška u formatu ključa.");
-                            Console.Write("Unesite ključ: ");
-                            ključSloženi = Console.ReadLine();
-                            ključ = NormalizacijaDvoglasa(ključSloženi);
-                        }
+                    //    Console.Write("Unesite ključ: ");
+                    //    string ključSloženi = Console.ReadLine();
+                    //    //korisnik odustaje od programa
+                    //    if (ključSloženi == "x" || ključSloženi == "X")
+                    //    {
+                    //        odgovor = "k";
+                    //        break;
+                    //    }
+                    //    ključ = NormalizacijaDvoglasa(ključSloženi);
+                    //    while (ključ.Count() == 0)
+                    //    {
+                    //        Console.WriteLine("Pogreška u formatu ključa.");
+                    //        Console.Write("Unesite ključ: ");
+                    //        ključSloženi = Console.ReadLine();
+                    //        ključ = NormalizacijaDvoglasa(ključSloženi);
+                    //    }
 
-                        if (radnja == "z") { složeni.Zakrij(ključ, poruka, ""); }
-                        else { složeni.Raskrij(ključ, poruka, ""); }
+                    //    if (radnja == "z") { složeni.Zakrij(ključ, poruka, ""); }
+                    //    else { složeni.Raskrij(ključ, poruka, ""); }
 
-                        ključ.Clear();
-                        poruka.Clear();
-                        odgovor = "k";
-                        break;
-                    #endregion
+                    //    ključ.Clear();
+                    //    poruka.Clear();
+                    //    odgovor = "k";
+                    //    break;
+                    //#endregion
 
-                    #region Kvadratna šifra
-                    case "q":
-                        KvadratnaŠifra kvadratnaŠifra = new KvadratnaŠifra();
-                        Console.WriteLine("Odabrali ste kvadratnu šifru.");
+                    //#region Kvadratna šifra
+                    //case "q":
+                    //    KvadratnaŠifra kvadratnaŠifra = new KvadratnaŠifra();
+                    //    Console.WriteLine("Odabrali ste kvadratnu šifru.");
 
-                        string odabir = provjeraPostupka();
+                    //    string odabir = provjeraPostupka();
 
-                        Console.Write("Unesite poruku: ");
-                        jasnopis = Console.ReadLine();
-                        //korisnik odustaje od programa
-                        if (jasnopis == "x" || jasnopis == "X")
-                        {
-                            odgovor = "k";
-                            break;
-                        }
-                        poruka = NormalizacijaDvoglasa(jasnopis);
-                        while (poruka.Count() == 0)
-                        {
-                            Console.WriteLine("Pogreška u formatu poruke.");
-                            Console.Write("Unesite poruku: ");
-                            jasnopis = Console.ReadLine();
-                            poruka = NormalizacijaDvoglasa(jasnopis);
-                        }
+                    //    Console.Write("Unesite poruku: ");
+                    //    jasnopis = Console.ReadLine();
+                    //    //korisnik odustaje od programa
+                    //    if (jasnopis == "x" || jasnopis == "X")
+                    //    {
+                    //        odgovor = "k";
+                    //        break;
+                    //    }
+                    //    poruka = NormalizacijaDvoglasa(jasnopis);
+                    //    while (poruka.Count() == 0)
+                    //    {
+                    //        Console.WriteLine("Pogreška u formatu poruke.");
+                    //        Console.Write("Unesite poruku: ");
+                    //        jasnopis = Console.ReadLine();
+                    //        poruka = NormalizacijaDvoglasa(jasnopis);
+                    //    }
 
-                        Console.Write("Unesite ključ: ");
-                        string ključKvadratnaŠifra = Console.ReadLine();
-                        //korisnik odustaje od programa
-                        if (ključKvadratnaŠifra == "x" || ključKvadratnaŠifra == "X")
-                        {
-                            odgovor = "k";
-                            break;
-                        }
-                        ključ = NormalizacijaDvoglasa(ključKvadratnaŠifra);
-                        while (ključ.Count() == 0)
-                        {
-                            Console.WriteLine("Pogreška u formatu ključa.");
-                            Console.Write("Unesite ključ: ");
-                            ključKvadratnaŠifra = Console.ReadLine();
-                            ključ = NormalizacijaDvoglasa(ključKvadratnaŠifra);
-                        }
+                    //    Console.Write("Unesite ključ: ");
+                    //    string ključKvadratnaŠifra = Console.ReadLine();
+                    //    //korisnik odustaje od programa
+                    //    if (ključKvadratnaŠifra == "x" || ključKvadratnaŠifra == "X")
+                    //    {
+                    //        odgovor = "k";
+                    //        break;
+                    //    }
+                    //    ključ = NormalizacijaDvoglasa(ključKvadratnaŠifra);
+                    //    while (ključ.Count() == 0)
+                    //    {
+                    //        Console.WriteLine("Pogreška u formatu ključa.");
+                    //        Console.Write("Unesite ključ: ");
+                    //        ključKvadratnaŠifra = Console.ReadLine();
+                    //        ključ = NormalizacijaDvoglasa(ključKvadratnaŠifra);
+                    //    }
 
-                        if (odabir == "z") { kvadratnaŠifra.Zakrij(ključ, poruka); }
-                        else { kvadratnaŠifra.Raskrij(ključ, poruka); }
+                    //    if (odabir == "z") { kvadratnaŠifra.Zakrij(ključ, poruka); }
+                    //    else { kvadratnaŠifra.Raskrij(ključ, poruka); }
 
-                        ključ.Clear();
-                        poruka.Clear();
-                        odgovor = "k";
-                        break;
-                    #endregion
+                    //    ključ.Clear();
+                    //    poruka.Clear();
+                    //    odgovor = "k";
+                    //    break;
+                    //#endregion
 
-                    #region DES
-                    case "d":
-                        #region stari des
-                        //DES des = new DES();
-                        //Console.WriteLine("Odabrali ste DES.");
+                    //#region DES
+                    //case "d":
+                    //    #region stari des
+                    //    //DES des = new DES();
+                    //    //Console.WriteLine("Odabrali ste DES.");
 
-                        ////zakrivanje ili raskrivanje
-                        //odabir = provjeraPostupka();
+                    //    ////zakrivanje ili raskrivanje
+                    //    //odabir = provjeraPostupka();
 
-                        //Console.Write("Unesite poruku: ");
-                        //jasnopis = Console.ReadLine();
-                        ////korisnik odustaje od programa
-                        //if (jasnopis == "x" || jasnopis == "X")
-                        //{
-                        //    odgovor = "k";
-                        //    break;
-                        //}
-                        //poruka = NormalizacijaDvoglasa(jasnopis);
-                        //bool ascii = false;
-                        //foreach (string slovo in poruka)
-                        //{
-                        //    if (slovo == "Č" || slovo == "Ć"  || slovo == "Đ" || slovo == "Dž" || slovo == "Nj" || slovo == "Lj" || slovo == "Š" || slovo == "Ž")
-                        //    {
-                        //        ascii = true;
-                        //    }
-                        //}
-                        //if (ascii) { poruka.Clear(); }
-                        //while (poruka.Count() == 0)
-                        //{
-                        //    Console.WriteLine("Pogreška u formatu poruke.");
-                        //    Console.Write("Unesite poruku: ");
-                        //    jasnopis = Console.ReadLine();
-                        //    poruka = NormalizacijaDvoglasa(jasnopis);
-                        //}
-                        //des.Zakrij(poruka);
-                        #endregion
-                        DES des = DES.Create();
-                        Console.WriteLine("Odabrali ste DES.");
+                    //    //Console.Write("Unesite poruku: ");
+                    //    //jasnopis = Console.ReadLine();
+                    //    ////korisnik odustaje od programa
+                    //    //if (jasnopis == "x" || jasnopis == "X")
+                    //    //{
+                    //    //    odgovor = "k";
+                    //    //    break;
+                    //    //}
+                    //    //poruka = NormalizacijaDvoglasa(jasnopis);
+                    //    //bool ascii = false;
+                    //    //foreach (string slovo in poruka)
+                    //    //{
+                    //    //    if (slovo == "Č" || slovo == "Ć"  || slovo == "Đ" || slovo == "Dž" || slovo == "Nj" || slovo == "Lj" || slovo == "Š" || slovo == "Ž")
+                    //    //    {
+                    //    //        ascii = true;
+                    //    //    }
+                    //    //}
+                    //    //if (ascii) { poruka.Clear(); }
+                    //    //while (poruka.Count() == 0)
+                    //    //{
+                    //    //    Console.WriteLine("Pogreška u formatu poruke.");
+                    //    //    Console.Write("Unesite poruku: ");
+                    //    //    jasnopis = Console.ReadLine();
+                    //    //    poruka = NormalizacijaDvoglasa(jasnopis);
+                    //    //}
+                    //    //des.Zakrij(poruka);
+                    //    #endregion
+                    //    DES des = DES.Create();
+                    //    Console.WriteLine("Odabrali ste DES.");
 
-                        //zakrivanje ili raskrivanje
-                        odabir = provjeraPostupka();
+                    //    //zakrivanje ili raskrivanje
+                    //    odabir = provjeraPostupka();
 
-                        Console.Write("Unesite poruku koristeći slova engleske abecede: ");
-                        jasnopis = Console.ReadLine();
+                    //    Console.Write("Unesite poruku koristeći slova engleske abecede: ");
+                    //    jasnopis = Console.ReadLine();
 
-                        //korisnik odustaje od programa
-                        if (jasnopis == "x" || jasnopis == "X")
-                        {
-                            odgovor = "k";
-                            break;
-                        }
+                    //    //korisnik odustaje od programa
+                    //    if (jasnopis == "x" || jasnopis == "X")
+                    //    {
+                    //        odgovor = "k";
+                    //        break;
+                    //    }
 
-                        //provjera slova engleske abecede
-                        poruka = NormalizacijaDvoglasa(jasnopis);
-                        bool ascii = false;
-                        foreach (string slovo in poruka)
-                        {
-                            if (slovo == "Č" || slovo == "Ć" || slovo == "Đ" || slovo == "Dž" || slovo == "Nj" || slovo == "Lj" || slovo == "Š" || slovo == "Ž")
-                            {
-                                ascii = true;
-                            }
-                        }
-                        if (ascii) { poruka.Clear(); } //ako postoje slova koja nisu ASCII, onda obriši cijelu poruku
+                    //    //provjera slova engleske abecede
+                    //    poruka = NormalizacijaDvoglasa(jasnopis);
+                    //    bool ascii = false;
+                    //    foreach (string slovo in poruka)
+                    //    {
+                    //        if (slovo == "Č" || slovo == "Ć" || slovo == "Đ" || slovo == "Dž" || slovo == "Nj" || slovo == "Lj" || slovo == "Š" || slovo == "Ž")
+                    //        {
+                    //            ascii = true;
+                    //        }
+                    //    }
+                    //    if (ascii) { poruka.Clear(); } //ako postoje slova koja nisu ASCII, onda obriši cijelu poruku
 
-                        while (poruka.Count() == 0)
-                        {
-                            Console.WriteLine("Pogreška u formatu poruke.");
-                            Console.Write("Unesite poruku koristeći SAMO znakove engleske abecede: ");
-                            jasnopis = Console.ReadLine();
-                            poruka = NormalizacijaDvoglasa(jasnopis);
-                        }
+                    //    while (poruka.Count() == 0)
+                    //    {
+                    //        Console.WriteLine("Pogreška u formatu poruke.");
+                    //        Console.Write("Unesite poruku koristeći SAMO znakove engleske abecede: ");
+                    //        jasnopis = Console.ReadLine();
+                    //        poruka = NormalizacijaDvoglasa(jasnopis);
+                    //    }
 
-                        //pretvaranje poruke iz liste u string
-                        string porukaString = "";
-                        foreach (string slovo in poruka)
-                        {
-                            porukaString += slovo;
-                        }
+                    //    //pretvaranje poruke iz liste u string
+                    //    string porukaString = "";
+                    //    foreach (string slovo in poruka)
+                    //    {
+                    //        porukaString += slovo;
+                    //    }
 
-                        //ako je odabrano zakrivanje
-                        if(odabir == "z")
-                        {
-                            byte[] porukaPodaci = Des.EncryptTextToMemory(porukaString, des.Key, des.IV);
+                    //    //ako je odabrano zakrivanje
+                    //    if(odabir == "z")
+                    //    {
+                    //        byte[] porukaPodaci = Des.EncryptTextToMemory(porukaString, des.Key, des.IV);
 
-                            string zakritak = string.Join(", ", porukaPodaci);
-                            string ključDES = string.Join("",des.Key);
+                    //        string zakritak = string.Join(", ", porukaPodaci);
+                    //        string ključDES = string.Join("",des.Key);
 
-                            Console.WriteLine("Ispis ključa: {0}", ključDES);
-                            Console.WriteLine("Ispis zakritka:");
-                            Console.WriteLine(zakritak);
-                        }
-                        else
-                        {
-                            Console.Write("Unesite ključ: ");
-                            string ključDES = Console.ReadLine();
-                            byte[] ključdes = Encoding.UTF8.GetBytes(ključDES);
-                            des.Key = ključdes;
+                    //        Console.WriteLine("Ispis ključa: {0}", ključDES);
+                    //        Console.WriteLine("Ispis zakritka:");
+                    //        Console.WriteLine(zakritak);
+                    //    }
+                    //    else
+                    //    {
+                    //        Console.Write("Unesite ključ: ");
+                    //        string ključDES = Console.ReadLine();
+                    //        byte[] ključdes = Encoding.UTF8.GetBytes(ključDES);
+                    //        des.Key = ključdes;
 
-                            byte[] porukaPodaci = Encoding.ASCII.GetBytes(porukaString);
-                            string raskritak = Des.DecryptTextFromMemory(porukaPodaci, des.Key, des.IV);
-                            Console.WriteLine("Ispis raskritka: {0}", raskritak);
-                            //string raskritak=Des.DecryptTextFromMemory(porukaPodaci, )
-                        }
-                        poruka.Clear();
-                        odgovor = "k";
-                        break;
-                    #endregion
+                    //        byte[] porukaPodaci = Encoding.ASCII.GetBytes(porukaString);
+                    //        string raskritak = Des.DecryptTextFromMemory(porukaPodaci, des.Key, des.IV);
+                    //        Console.WriteLine("Ispis raskritka: {0}", raskritak);
+                    //        //string raskritak=Des.DecryptTextFromMemory(porukaPodaci, )
+                    //    }
+                    //    poruka.Clear();
+                    //    odgovor = "k";
+                    //    break;
+                    //#endregion
 
-                    #region RSA
-                    case "r":
-                        RSA rsa = new RSA();
-                        Console.WriteLine("Odabrali ste RSA.");
-                        //unos javnog ključa
-                        Console.Write("Unesite vrijednost javnog ključa (e): ");
-                        string proizvoljnoe = Console.ReadLine();
-                        while (!proizvoljnoe.All(char.IsDigit) || proizvoljnoe.Length==0)
-                        {
-                            Console.WriteLine("Niste unijeli broj.");
-                            Console.Write("Unesite vrijednost javnog ključa (e): ");
-                            proizvoljnoe = Console.ReadLine();
-                        }
-                        rsa.e = int.Parse(proizvoljnoe);
+                    //#region RSA
+                    //case "r":
+                    //    RSA rsa = new RSA();
+                    //    Console.WriteLine("Odabrali ste RSA.");
+                    //    //unos javnog ključa
+                    //    Console.Write("Unesite vrijednost javnog ključa (e): ");
+                    //    string proizvoljnoe = Console.ReadLine();
+                    //    while (!proizvoljnoe.All(char.IsDigit) || proizvoljnoe.Length==0)
+                    //    {
+                    //        Console.WriteLine("Niste unijeli broj.");
+                    //        Console.Write("Unesite vrijednost javnog ključa (e): ");
+                    //        proizvoljnoe = Console.ReadLine();
+                    //    }
+                    //    rsa.e = int.Parse(proizvoljnoe);
 
-                        //unos javnog djelitelja
-                        Console.Write("Unesite vrijednost javnog djelitelja (n): ");
-                        string proizvoljnon = Console.ReadLine();
-                        while (!proizvoljnon.All(char.IsDigit) && int.Parse(proizvoljnon) < 3)
-                        {
-                            Console.WriteLine("Niste unijeli valjanu vrijednost. [>3]");
-                            Console.Write("Unesite vrijednost javnog djelitelja (n): ");
-                            proizvoljnon = Console.ReadLine();
-                        }
-                        rsa.n = int.Parse(proizvoljnon);
+                    //    //unos javnog djelitelja
+                    //    Console.Write("Unesite vrijednost javnog djelitelja (n): ");
+                    //    string proizvoljnon = Console.ReadLine();
+                    //    while (!proizvoljnon.All(char.IsDigit) && int.Parse(proizvoljnon) < 3)
+                    //    {
+                    //        Console.WriteLine("Niste unijeli valjanu vrijednost. [>3]");
+                    //        Console.Write("Unesite vrijednost javnog djelitelja (n): ");
+                    //        proizvoljnon = Console.ReadLine();
+                    //    }
+                    //    rsa.n = int.Parse(proizvoljnon);
 
-                        //zakrivanje ili raskrivanje
-                        odabir = provjeraPostupka();
+                    //    //zakrivanje ili raskrivanje
+                    //    odabir = provjeraPostupka();
 
-                        //unos poruke
-                        Console.Write("Unesite poruku: ");
-                        jasnopis = Console.ReadLine();
-                        //korisnik odustaje od programa
-                        if (jasnopis == "x" || jasnopis == "X")
-                        {
-                            odgovor = "k";
-                            break;
-                        }
-                        poruka = NormalizacijaDvoglasa(jasnopis);
-                        while (poruka.Count() == 0)
-                        {
-                            Console.WriteLine("Pogreška u formatu poruke.");
-                            Console.Write("Unesite poruku: ");
-                            jasnopis = Console.ReadLine();
-                            poruka = NormalizacijaDvoglasa(jasnopis);
-                        }
-                        if (odabir == "z") { rsa.Zakrij(poruka); }
-                        else { rsa.Raskrij(poruka); }
+                    //    //unos poruke
+                    //    Console.Write("Unesite poruku: ");
+                    //    jasnopis = Console.ReadLine();
+                    //    //korisnik odustaje od programa
+                    //    if (jasnopis == "x" || jasnopis == "X")
+                    //    {
+                    //        odgovor = "k";
+                    //        break;
+                    //    }
+                    //    poruka = NormalizacijaDvoglasa(jasnopis);
+                    //    while (poruka.Count() == 0)
+                    //    {
+                    //        Console.WriteLine("Pogreška u formatu poruke.");
+                    //        Console.Write("Unesite poruku: ");
+                    //        jasnopis = Console.ReadLine();
+                    //        poruka = NormalizacijaDvoglasa(jasnopis);
+                    //    }
+                    //    if (odabir == "z") { rsa.Zakrij(poruka); }
+                    //    else { rsa.Raskrij(poruka); }
 
-                        poruka.Clear();
-                        odgovor = "k";
-                        break;
-                    #endregion
+                    //    poruka.Clear();
+                    //    odgovor = "k";
+                    //    break;
+                    //#endregion
 
                     #region kraj
                     case "k":
