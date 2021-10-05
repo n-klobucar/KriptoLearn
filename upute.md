@@ -13,4 +13,6 @@
   
 #### Svaki kritopisni sustav traži odabir:  
 + `r` - raskrivanje zakritka
-+ `z` - zakrivanje jasnopisa
++ `z` - zakrivanje jasnopisa  
+  
+#### Prilikom unosa poruke ili ključa sva slova moraju biti velika, osim dvoglasa, kod kojih je prvo slovo veliko, a drugo malo (npr. Lj). Ukoliko, format poruke ili ključa nije valjan, ponavlja se unos.
