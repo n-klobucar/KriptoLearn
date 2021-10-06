@@ -18,8 +18,8 @@ namespace KriptoLearn
             //unicode u konzoli
             Console.OutputEncoding = Encoding.UTF8;
 
-            //deklaracija varijabli
             string poruka;
+            string odgovor;
 
             //funkcije
             string Odabir()
@@ -28,7 +28,7 @@ namespace KriptoLearn
                 string odabir = Console.ReadLine();
                 return odabir;
             }
-            List<string> NormalizacijaDvoglasa(string tekst)
+            List<string> ProvjeraFormataUnosa(string tekst)
             {
                 List<string> abeceda = new List<string>() {"A", "B", "C", "Č", "Ć", "D", "Dž", "Đ", "E", "F", "G", "H", "I", "J", "K",
                                             "L", "Lj", "M", "N", "Nj", "O", "P", "R", "S", "Š", "T", "U", "V", "Z", "Ž"};
@@ -93,7 +93,7 @@ namespace KriptoLearn
                 else { return false; }
             }
 
-            string odgovor = Odabir().ToLower();
+            odgovor = Odabir().ToLower();
             while (odgovor != "x")
             {
                 switch (odgovor)
@@ -113,13 +113,13 @@ namespace KriptoLearn
                         }
 
                         //provjera poruke
-                        zamjenski.jasnopis = NormalizacijaDvoglasa(poruka);
+                        zamjenski.jasnopis = ProvjeraFormataUnosa(poruka);
                         while (zamjenski.jasnopis.Count() == 0)
                         {
                             Console.WriteLine("Pogreška u formatu poruke.");
                             Console.Write("Unesite poruku: ");
                             poruka = Console.ReadLine();
-                            zamjenski.jasnopis = NormalizacijaDvoglasa(poruka);
+                            zamjenski.jasnopis = ProvjeraFormataUnosa(poruka);
                         }
 
                         //provjera ključa
@@ -153,13 +153,13 @@ namespace KriptoLearn
                             }
                             else if (ključ.All(char.IsLetter)) //ako su uneseni samo znakovi ---- provjera slova
                             {
-                                List<string> pomak = NormalizacijaDvoglasa(ključ);
+                                List<string> pomak = ProvjeraFormataUnosa(ključ);
                                 while (pomak.Count() == 0)
                                 {
                                     Console.WriteLine("Pogreška u formatu ključa.");
-                                    Console.Write("Unesite broj ili ključ za pomak: ");
+                                    Console.Write("Unesite ključ za pomak: ");
                                     ključ = Console.ReadLine();
-                                    pomak = NormalizacijaDvoglasa(ključ);
+                                    pomak = ProvjeraFormataUnosa(ključ);
                                 }
                                 greška = false;
                                 if (zakrivanje) { zamjenski.ZakrijZamjenskim(zamjenski.jasnopis, pomak); }
