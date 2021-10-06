@@ -98,7 +98,7 @@ namespace KriptoLearn
                             jasnopis = Console.ReadLine();
                             poruka = NormalizacijaDvoglasa(jasnopis);
                         }
-                        //provjera ključa
+
                         Console.Write("Unesite broj ili ključ za pomak: ");
                         string unosZamjenski = Console.ReadLine();
                         //korisnik odustaje od programa
