@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace KriptoLearn
 {
-    class Premještajni
+    class Premještajni : KritopisniSustav
     {
         private List<string> abeceda = new List<string>() {"A", "B", "C", "Č", "Ć", "D", "Dž", "Đ", "E", "F", "G", "H", "I", "J", "K",
                                             "L", "Lj", "M", "N", "Nj", "O", "P", "R", "S", "Š", "T", "U", "V", "Z", "Ž"};
