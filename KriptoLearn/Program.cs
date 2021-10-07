@@ -99,7 +99,7 @@ namespace KriptoLearn
                     else if (k.All(char.IsDigit)) { Console.WriteLine("Greška! Niste unijeli valjani broj. [0-29]"); continue; }
                     else
                     {
-                        List<string> provjereniK = ProvjeraFormataUnosa(k);
+                        provjereniKljuč = ProvjeraFormataUnosa(k);
                         if (provjereniKljuč.Count() == 0)
                         {
                             Console.WriteLine("Pogreška u formatu ključa.");
@@ -190,6 +190,7 @@ namespace KriptoLearn
                         }
 
                         IspisRješenja(zakrivanje, zamjenski.jasnopis, zamjenski.zakritak);
+
                         provjereniKljuč.Clear();
                         zamjenski.zakritak.Clear();
                         zamjenski.jasnopis.Clear();
@@ -203,23 +204,25 @@ namespace KriptoLearn
                         Console.WriteLine("Odabrali ste premještajni");
 
                         bool dvostruki = ProvjeraVrstePremještajnog();
+
                         zakrivanje = ProvjeraPostupka();
+
                         UnosIProvjeraPoruke(premještajni, zakrivanje);
                         if (KorisnikOdustao(poruka)) { odgovor = "k"; break; }
 
                         provjereniKljuč = UnosIProvjeraKljuča();
-                        if (KorisnikOdustao(provjereniKljuč[0])) { odgovor = "k"; break; }
+                        if (KorisnikOdustao(provjereniKljuč.First())) { odgovor = "k"; break; }
 
-                        //if (zakrivanje)
-                        //{
-                        //    if (dvostruki) { premještajni.Zakrij(ključ, poruka, dvostruki); }
-                        //    else { premještajni.Zakrij(ključ, poruka); }
-                        //}
-                        //else
-                        //{
-                        //    if (dvostruki) { premještajni.Raskrij(ključ, poruka, dvostruki); }
-                        //    else { premještajni.Raskrij(ključ, poruka); }
-                        //}
+                        if (zakrivanje)
+                        {
+                            if (dvostruki) { premještajni.ZakrijPremještajnim(provjereniKljuč, dvostruki); }
+                            else { premještajni.ZakrijPremještajnim(provjereniKljuč); }
+                        }
+                        else
+                        {
+                            if (dvostruki) { premještajni.RaskrijPremještajnim(provjereniKljuč, dvostruki); }
+                            else { premještajni.RaskrijPremještajnim(provjereniKljuč); }
+                        }
                         premještajni.jasnopis.Clear();
                         premještajni.zakritak.Clear();
                         provjereniKljuč.Clear();

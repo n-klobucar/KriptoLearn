@@ -52,7 +52,7 @@ namespace KriptoLearn
     //        #endregion
     //    }
     //}
-    class Des
+    class Des : KritopisniSustav
     {
         public static byte[] EncryptTextToMemory(string Data, byte[] Key, byte[] IV)
         {

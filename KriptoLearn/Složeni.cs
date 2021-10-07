@@ -6,11 +6,11 @@
 
 //namespace KriptoLearn
 //{
-//    class Složeni
+//    class Složeni : KritopisniSustav
 //    {
 //        private List<string> zakritniSlovored = new List<string>();
-        
-//        public void Zakrij(List<string> ključ, List<string> poruka, string opcija="") //radi
+
+//        public void Zakrij(List<string> ključ, List<string> poruka, string opcija = "") //radi
 //        {
 //            //upute za zakrivanje složenim kritopisom
 //            Console.WriteLine("\nPostupak zakrivanja poruke složenim kritopisnim sustavom sastoji se od:");
@@ -31,7 +31,7 @@
 //            poruka.Clear();
 //            for (int i = 0; i < premještajni.premještenaPoruka.Count(); i++)
 //            {
-//                if(i!=0 && i % 5 == 0) { poruka.Add(" "); }
+//                if (i != 0 && i % 5 == 0) { poruka.Add(" "); }
 //                poruka.Add(premještajni.premještenaPoruka[i]);
 //            }
 //            zamjenski.Zakrij(zakritniSlovored, poruka);

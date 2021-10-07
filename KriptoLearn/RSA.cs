@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace KriptoLearn
 {
-    class RSA
+    class RSA : KritopisniSustav
     {
         //da umjesto ASCII koristim indeks u abecedi? - da
 
