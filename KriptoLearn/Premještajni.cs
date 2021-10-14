@@ -62,7 +62,7 @@ namespace KriptoLearn
             }
             Console.WriteLine();
         }
-        private void UrediPoruku(List<string> poruka)
+        public void UrediPoruku(List<string> poruka)
         {
             uređenaPoruka.Clear();
             //uklanjanje znakova koji nisu slova

@@ -32,7 +32,7 @@ namespace KriptoLearn
                 zakritniSlovored.Add(slovo);
             }
         }
-        void KreirajZakritniSlovoredKljučem(List<string> pomak)
+        public void KreirajZakritniSlovoredKljučem(List<string> pomak)
         {
             int brZnakova = pomak.Distinct().Count();
             List<string> privremeniZakritni = new List<string>();
@@ -88,7 +88,7 @@ namespace KriptoLearn
                 Console.Write(slovo + " ");
             }
         }
-        void KreirajZakritakZamjenskim()
+        public void KreirajZakritakZamjenskim()
         {
             foreach (string slovo in jasnopis)
             {
