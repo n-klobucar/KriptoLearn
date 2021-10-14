@@ -8,7 +8,6 @@ namespace KriptoLearn
 {
     class Premještajni : KritopisniSustav
     {
-        public List<string> premještenaPoruka = new List<string>();
         private List<string> uređenaPoruka = new List<string>();
         private Dictionary<int, string> parovi = new Dictionary<int, string>();
         private List<List<string>> stupci = new List<List<string>>();
@@ -26,7 +25,7 @@ namespace KriptoLearn
         private void DodajKljučUListuParova(List<string> ključ)
         {
             int pomak;
-            bool dodano = false;
+            bool dodano;
             foreach (string slovo in ključ)
             {
                 pomak = 1;
@@ -86,10 +85,6 @@ namespace KriptoLearn
             }
             Console.WriteLine("\n");
         }
-        private void PohranaPodatakaOZakritku()
-        {
-
-        }
         private void UpisivanjeStupacaUListu()
         {
             stupci.Clear();
@@ -115,13 +110,12 @@ namespace KriptoLearn
                 brojač++;
             }
         }
-        private void PohranaPremještenePoruke(List<string> poruka)
+        private void PohranaZakritka()
         {
-            premještenaPoruka.Clear();
-            //pohrana premještene poruke
+            //pohrana zakritka
             foreach (KeyValuePair<int, List<string>> par in poredak.OrderBy(o => o.Key))
             {
-                foreach (string slovo in par.Value) { poruka.Add(slovo); }
+                foreach (string slovo in par.Value) { zakritak.Add(slovo); }
             }
         }
         private void IspisZakritka()
@@ -133,6 +127,14 @@ namespace KriptoLearn
                 Console.Write(zakritak[i]);
             }
         }
+        private void IspisRaskritka()
+        {
+            for (int i = 0; i < jasnopis.Count(); i++)
+            {
+                if (i % sortiraniKljuč.Count() == 0 && i != 0) { Console.WriteLine(); }
+                Console.Write(jasnopis[i] + " ");
+            }
+        }
         private void AlgoritamZakrivanja()
         {
             IspisKljuča();
@@ -140,87 +142,59 @@ namespace KriptoLearn
             IspisPorukeUTablici();
             UpisivanjeStupacaUListu();
             SpajanjeRedoslijedaStupacaSBrojevima();
-            PohranaPremještenePoruke(zakritak);
+            PohranaZakritka();
+            IspisZakritka();
         }
         private void AlgoritamRaskrivanja()
         {
             IspisKljuča();
+            UrediPoruku(zakritak);
             IspisPorukeUTablici();
 
             //pohrana podataka o zakritku
-            List<int> brStupca = new List<int>();
+            List<int> poredakStupca = new List<int>();
             foreach (int broj in parovi.Keys)
             {
-                brStupca.Add(broj);
+                poredakStupca.Add(broj);
             }
             int brRedaka = uređenaPoruka.Count() / sortiraniKljuč.Count();
             int brSlovaPosljednjegRetka = uređenaPoruka.Count() % sortiraniKljuč.Count();
             if (brSlovaPosljednjegRetka != 0) { brRedaka++; }
             int brojačSlova = 0;
 
-            //NAĐEM BROJ STUPCA KRROZ KLJUČEVE U RJEČNIKU PAROVI SORTIRANOM ABECEDNO
-            //NA TEMELJU INDEKSA TOG KLJUČA, ODABEREM BROJ ZNAKOVA KOJI ĆE SE UPISATI
-            //UPISUJEM TOLIKO ZNAKOVA
-
-            foreach (KeyValuePair<int, List<string>> par in poredak.OrderBy(o=>o.Key))
+            //kreiranje raskritka
+            foreach (int element in poredakStupca.OrderBy(o=>o))
             {
                 List<string> stupac = new List<string>();
-                if (brStupca.IndexOf(par.Key) <= brSlovaPosljednjegRetka)
+                if (poredakStupca.IndexOf(element) < brSlovaPosljednjegRetka)
                 {
-                    for (int i = 0; i < brRedaka; i++)
-                    {
-                        stupac.Add(uređenaPoruka[brojačSlova]);
-                        brojačSlova++;
-                    }
+                    for (int i = 0; i < brRedaka; i++) { stupac.Add(uređenaPoruka[brojačSlova]); brojačSlova++; }
                 }
                 else
                 {
-                    for (int i = 0; i < brRedaka-1; i++)
-                    {
-                        stupac.Add(uređenaPoruka[brojačSlova]);
-                        brojačSlova++;
-                    }
+                    for (int i = 0; i < brRedaka - 1; i++) { stupac.Add(uređenaPoruka[brojačSlova]); brojačSlova++; }
                 }
-                stupci.Add(stupac);
+                poredak.Add(poredakStupca.IndexOf(element), stupac);
             }
-            int brojačStupaca = 0;
-            foreach (KeyValuePair<int, List<string>> par in poredak.Where(o=>o.Key==brojačStupaca+1))
+            //pohrana raskritka
+            jasnopis.Clear();
+            for (int i = 0; i < brRedaka; i++)
             {
-                poredak[brojačStupaca] = stupci[brojačStupaca];
-                brojačStupaca++;
+                foreach (KeyValuePair<int, List<string>> par in poredak.OrderBy(o => o.Key))
+                {
+                    try { jasnopis.Add(par.Value[i]); }
+                    catch { continue; }
+                }
             }
-            //SAD SVAKI STUPAC IMA PRIPADAJUĆA SLOVA I PRIPADAJUĆI REDOSLIJED
-
-            ////kreiranje liste sa stupcima
-            //for (int i = 0; i < brStupca.Count(); i++)
-            //{
-            //    List<string> stupac = new List<string>();
-
-            //    if (stupci.Count() < brSlovaPosljednjegRetka)
-            //    {
-            //        for (int j = 0; j < brRedaka; j++)
-            //        {
-            //            stupac.Add(uređenaPoruka[brStupca*5]);
-            //            brojačSlova++;
-            //        }
-            //    }
-            //    else
-            //    {
-            //        for (int j = 0; j < brRedaka - 1; j++)
-            //        {
-            //            stupac.Add(uređenaPoruka[brojačSlova]);
-            //            brojačSlova++;
-            //        }
-            //    }
-            //    stupci.Add(stupac);
-            //}
-            //PohranaPremještenePoruke(jasnopis);
+            IspisRaskritka();
         }
         public void ZakrijPremještajnim(List<string> ključ, bool dvostruki = false, bool složeni = false) 
         {
             KreirajSortiraniKljuč(ključ);
             DodajKljučUListuParova(ključ);
+            UrediPoruku(jasnopis);
 
+            #region Upute
             //ispis uputa zakrivanja
             if (složeni) { Console.WriteLine(); }
             Console.WriteLine("\nPostupak zakrivanja premještajnim sustavom sastoji se od:");
@@ -229,11 +203,12 @@ namespace KriptoLearn
             Console.WriteLine("3. Zapisa poruke u retke ispod ključa te");
             Console.WriteLine("4. Išćitavanje/ispisivanje slova iz stupaca uzlaznim redoslijedom.");
             Console.WriteLine("5. Ukoliko se radi o dvostrukom raskrivanju, još jednom se ponove 3. i 4. korak.\n");
+            #endregion
 
             AlgoritamZakrivanja();
 
-            if (dvostruki) { jasnopis.Clear(); foreach (string slovo in zakritak) { jasnopis.Add(slovo); } zakritak.Clear(); poredak.Clear(); AlgoritamRaskrivanja(); }
-            IspisZakritka();
+            if (dvostruki) { Console.WriteLine("\n\nOdabrali ste dvostruki pa ponavljam postupak.\n"); jasnopis.Clear(); foreach (string slovo in zakritak) { jasnopis.Add(slovo); } zakritak.Clear(); poredak.Clear(); AlgoritamZakrivanja(); }
+            else { IspisZakritka(); }
         }
         public void RaskrijPremještajnim(List<string> ključ, bool dvostruki = false, bool složeni = false) 
         {
@@ -241,6 +216,7 @@ namespace KriptoLearn
             DodajKljučUListuParova(ključ);
             UrediPoruku(zakritak);
 
+            #region Upute
             //ispis uputa raskrivanja
             if (složeni) { Console.WriteLine(); }
             Console.WriteLine("\nPostupak raskrivanja premještajnim sustavom sastoji se od:");
@@ -250,72 +226,17 @@ namespace KriptoLearn
             Console.WriteLine("4. Da bi znali koliko slova upisati u pojedini stupac, potrebno je izračunati broj znakova u posljednjem retku ");
             Console.WriteLine("po ostatku cjelobrojnog dijeljenja s duljinom ključa.");
             Console.WriteLine("5. Ukoliko se radi o dvostrukom raskrivanju, još jednom se ponove 3. i 4. korak.\n");
+            #endregion
 
             //ispis podataka zakritka
             Console.WriteLine("Broj stupaca je: {0}", sortiraniKljuč.Count());
             int retci = uređenaPoruka.Count() / sortiraniKljuč.Count();
             if (uređenaPoruka.Count() % sortiraniKljuč.Count() != 0) { retci++; }
             Console.WriteLine("Broj redaka je duljina poruke/duljina ključa i iznosi: {0}\n", retci);
-
             AlgoritamRaskrivanja();
-            if (dvostruki) { zakritak.Clear(); foreach (string slovo in jasnopis) { zakritak.Add(slovo); } jasnopis.Clear(); poredak.Clear(); AlgoritamRaskrivanja(); Console.WriteLine("Dvostruki"); dvostruki = false; }
-            else
-            {
-                IspisKljuča();
-                //ispis jasnopisa
-                //Console.WriteLine("\n Ispis jasnopisa:");
-                //for (int i = 0; i < retci; i++)
-                //{
-                //    foreach (KeyValuePair<int, List<string>> par in poredak)
-                //    {
-                //try { Console.Write(par.Value[i] + " "); }
-                //catch { continue; }
-                //    }
-                //    Console.WriteLine();
-                //}
-                //foreach (KeyValuePair<int, List<string>> par in poredak)
-                //{
-                //    Console.WriteLine("U prvom feoreachu");
-                //    foreach (string slovo in par.Value)
-                //    {
-                //        Console.WriteLine("U drugom feoreachu");
-                //        //try { Console.Write(slovo + " "); }
-                //        //catch { continue; }
-                //        Console.Write(slovo + " ");
-                //    }
-                //    Console.WriteLine("Završio sam ispis");
-                //}
-                foreach (List<string> stupac in poredak.Values)
-                {
-                    foreach (string slovo in stupac)
-                    {
-                        Console.Write(slovo + " ");
-                    }
-                }
-                Console.WriteLine("\nNa kraju je potrebno prepisati slova iz tablice s pravilnim interpunkcijama.");
-            }
-            //        #region jednostruki vs. dvostruki
 
-            //        if (dvostruki)
-            //        {
-            //                for (int i = 0; i < brRedaka; i++)
-            //                {
-            //                    foreach (KeyValuePair<int, List<string>> par in poredak)
-            //                    {
-            //                        try
-            //                        {
-            //                            premještenaPoruka.Add(par.Value[i]);
-            //                        }
-            //                        catch
-            //                        {
-            //                            continue;
-            //                        }
-            //                    }
-            //                }
-            //            jasnopis = premještenaPoruka;
-            //            RaskrijPremještajnim(ključ);
-            //        }
-            //        #endregion
+            if (dvostruki) { Console.WriteLine("\n\nOdabrali ste dvostruki pa ponavljam postupak.\n"); zakritak.Clear(); foreach (string slovo in jasnopis) { zakritak.Add(slovo); } jasnopis.Clear(); poredak.Clear(); UrediPoruku(zakritak); AlgoritamRaskrivanja(); }
+            else{ Console.WriteLine("Raskrivenu poruku treba prepisati iz tablice s valjanim interpunkcijskim znakovima."); }
         }
     }
 }
