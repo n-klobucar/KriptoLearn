@@ -134,6 +134,7 @@ namespace KriptoLearn
                 if (i % sortiraniKljuč.Count() == 0 && i != 0) { Console.WriteLine(); }
                 Console.Write(jasnopis[i] + " ");
             }
+            Console.WriteLine();
         }
         private void AlgoritamZakrivanja()
         {
@@ -143,7 +144,7 @@ namespace KriptoLearn
             UpisivanjeStupacaUListu();
             SpajanjeRedoslijedaStupacaSBrojevima();
             PohranaZakritka();
-            IspisZakritka();
+            //IspisZakritka();
         }
         private void AlgoritamRaskrivanja()
         {
@@ -236,7 +237,7 @@ namespace KriptoLearn
             AlgoritamRaskrivanja();
 
             if (dvostruki) { Console.WriteLine("\n\nOdabrali ste dvostruki pa ponavljam postupak.\n"); zakritak.Clear(); foreach (string slovo in jasnopis) { zakritak.Add(slovo); } jasnopis.Clear(); poredak.Clear(); UrediPoruku(zakritak); AlgoritamRaskrivanja(); }
-            else{ Console.WriteLine("Raskrivenu poruku treba prepisati iz tablice s valjanim interpunkcijskim znakovima."); }
+            else{ Console.WriteLine("\nRaskrivenu poruku treba prepisati iz tablice s valjanim interpunkcijskim znakovima."); }
         }
     }
 }

@@ -212,16 +212,9 @@ namespace KriptoLearn
                         provjereniKljuč = UnosIProvjeraKljuča();
                         if (KorisnikOdustao(provjereniKljuč.First())) { odgovor = "k"; break; }
 
-                        if (zakrivanje)
-                        {
-                            if (dvostruki) { premještajni.ZakrijPremještajnim(provjereniKljuč, dvostruki); }
-                            else { premještajni.ZakrijPremještajnim(provjereniKljuč); }
-                        }
-                        else
-                        {
-                            if (dvostruki) { premještajni.RaskrijPremještajnim(provjereniKljuč, dvostruki); }
-                            else { premještajni.RaskrijPremještajnim(provjereniKljuč); }
-                        }
+                        if (zakrivanje) { premještajni.ZakrijPremještajnim(provjereniKljuč, dvostruki); }
+                        else { premještajni.RaskrijPremještajnim(provjereniKljuč, dvostruki); }
+
                         premještajni.jasnopis.Clear();
                         premještajni.zakritak.Clear();
                         provjereniKljuč.Clear();
@@ -242,49 +235,9 @@ namespace KriptoLearn
                         provjereniKljuč = UnosIProvjeraKljuča();
                         if (KorisnikOdustao(provjereniKljuč.First())) { odgovor = "k"; break; }
 
-                        if (zakrivanje) { složeni.ZakrijSloženim(provjereniKljuč); }
-                        IspisRješenja(zakrivanje, složeni.jasnopis, složeni.zakritak);
-                        //string radnja = provjeraPostupka();
+                        if (zakrivanje) { složeni.ZakrijSloženim(provjereniKljuč); IspisRješenja(zakrivanje, složeni.jasnopis, složeni.zakritak); }
+                        else { složeni.RaskrijSloženim(provjereniKljuč); }
 
-                        //Console.Write("Unesite poruku: ");
-                        //jasnopis = Console.ReadLine();
-                        ////korisnik odustaje od programa
-                        //if (jasnopis == "x" || jasnopis == "X")
-                        //{
-                        //    odgovor = "k";
-                        //    break;
-                        //}
-                        //poruka = NormalizacijaDvoglasa(jasnopis);
-                        //while (poruka.Count() == 0)
-                        //{
-                        //    Console.WriteLine("Pogreška u formatu poruke.");
-                        //    Console.Write("Unesite poruku: ");
-                        //    jasnopis = Console.ReadLine();
-                        //    poruka = NormalizacijaDvoglasa(jasnopis);
-                        //}
-
-                        //Console.Write("Unesite ključ: ");
-                        //string ključSloženi = Console.ReadLine();
-                        ////korisnik odustaje od programa
-                        //if (ključSloženi == "x" || ključSloženi == "X")
-                        //{
-                        //    odgovor = "k";
-                        //    break;
-                        //}
-                        //ključ = NormalizacijaDvoglasa(ključSloženi);
-                        //while (ključ.Count() == 0)
-                        //{
-                        //    Console.WriteLine("Pogreška u formatu ključa.");
-                        //    Console.Write("Unesite ključ: ");
-                        //    ključSloženi = Console.ReadLine();
-                        //    ključ = NormalizacijaDvoglasa(ključSloženi);
-                        //}
-
-                        //if (radnja == "z") { složeni.Zakrij(ključ, poruka, ""); }
-                        //else { složeni.Raskrij(ključ, poruka, ""); }
-
-                        //ključ.Clear();
-                        //poruka.Clear();
                         složeni.jasnopis.Clear();
                         složeni.zakritak.Clear();
                         provjereniKljuč.Clear();

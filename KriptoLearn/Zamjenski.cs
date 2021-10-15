@@ -10,7 +10,6 @@ namespace KriptoLearn
     {
         public List<string> zakritniSlovored = new List<string>();
 
-        //functions
         void KreirajZakritniSlovoredBrojem(int broj)
         {
             Console.WriteLine("\njasnopisni slovored:");
@@ -87,6 +86,7 @@ namespace KriptoLearn
             {
                 Console.Write(slovo + " ");
             }
+            Console.WriteLine();
         }
         public void KreirajZakritakZamjenskim()
         {
@@ -102,9 +102,9 @@ namespace KriptoLearn
                     zakritak.Add(slovo);
                 }
             }
-            Console.WriteLine("\n\nZakritak se dobije tako da se svako slovo jasnopisa zamijeni pripadajućim slovom kritopisnog slovoreda, a interpunkcije i ostali posebni znakovi se samo prepišu.\n");
+            Console.WriteLine("\n\nZakritak se dobije tako da se svako slovo jasnopisa zamijeni pripadajućim slovom kritopisnog slovoreda, a interpunkcije i ostali posebni znakovi se samo prepišu.");
         }
-        void KreirajJasnopisZamjenskim()
+        public void KreirajJasnopisZamjenskim()
         {
             foreach (string slovo in zakritak)
             {
