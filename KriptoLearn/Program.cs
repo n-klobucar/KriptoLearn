@@ -245,55 +245,30 @@ namespace KriptoLearn
                         break;
                     #endregion
 
-                    //#region Kvadratna šifra
-                    //case "q":
-                    //    KvadratnaŠifra kvadratnaŠifra = new KvadratnaŠifra();
-                    //    Console.WriteLine("Odabrali ste kvadratnu šifru.");
+                    #region Kvadratna šifra
+                    case "q":
+                        KvadratnaŠifra kvadratnaŠifra = new KvadratnaŠifra();
+                        Console.WriteLine("Odabrali ste kvadratnu šifru.");
 
-                    //    string odabir = provjeraPostupka();
+                        zakrivanje = ProvjeraPostupka();
 
-                    //    Console.Write("Unesite poruku: ");
-                    //    jasnopis = Console.ReadLine();
-                    //    //korisnik odustaje od programa
-                    //    if (jasnopis == "x" || jasnopis == "X")
-                    //    {
-                    //        odgovor = "k";
-                    //        break;
-                    //    }
-                    //    poruka = NormalizacijaDvoglasa(jasnopis);
-                    //    while (poruka.Count() == 0)
-                    //    {
-                    //        Console.WriteLine("Pogreška u formatu poruke.");
-                    //        Console.Write("Unesite poruku: ");
-                    //        jasnopis = Console.ReadLine();
-                    //        poruka = NormalizacijaDvoglasa(jasnopis);
-                    //    }
+                        UnosIProvjeraPoruke(kvadratnaŠifra, zakrivanje);
+                        if (KorisnikOdustao(poruka)) { odgovor = "k"; break; }
 
-                    //    Console.Write("Unesite ključ: ");
-                    //    string ključKvadratnaŠifra = Console.ReadLine();
-                    //    //korisnik odustaje od programa
-                    //    if (ključKvadratnaŠifra == "x" || ključKvadratnaŠifra == "X")
-                    //    {
-                    //        odgovor = "k";
-                    //        break;
-                    //    }
-                    //    ključ = NormalizacijaDvoglasa(ključKvadratnaŠifra);
-                    //    while (ključ.Count() == 0)
-                    //    {
-                    //        Console.WriteLine("Pogreška u formatu ključa.");
-                    //        Console.Write("Unesite ključ: ");
-                    //        ključKvadratnaŠifra = Console.ReadLine();
-                    //        ključ = NormalizacijaDvoglasa(ključKvadratnaŠifra);
-                    //    }
+                        provjereniKljuč = UnosIProvjeraKljuča();
+                        if (KorisnikOdustao(provjereniKljuč.First())) { odgovor = "k"; break; }
 
-                    //    if (odabir == "z") { kvadratnaŠifra.Zakrij(ključ, poruka); }
-                    //    else { kvadratnaŠifra.Raskrij(ključ, poruka); }
+                        if (zakrivanje) { kvadratnaŠifra.ZakrijKvadratnomŠifrom(provjereniKljuč,zakrivanje); }
+                        else { kvadratnaŠifra.RaskrijKvadratnomŠifrom(provjereniKljuč, zakrivanje); }
 
-                    //    ključ.Clear();
-                    //    poruka.Clear();
-                    //    odgovor = "k";
-                    //    break;
-                    //#endregion
+                        IspisRješenja(zakrivanje, kvadratnaŠifra.jasnopis, kvadratnaŠifra.zakritak);
+
+                        kvadratnaŠifra.jasnopis.Clear();
+                        kvadratnaŠifra.zakritak.Clear();
+                        provjereniKljuč.Clear();
+                        odgovor = "k";
+                        break;
+                    #endregion
 
                     //#region DES
                     //case "d":
