@@ -192,8 +192,6 @@ namespace KriptoLearn
                         IspisRješenja(zakrivanje, zamjenski.jasnopis, zamjenski.zakritak);
 
                         provjereniKljuč.Clear();
-                        zamjenski.zakritak.Clear();
-                        zamjenski.jasnopis.Clear();
                         odgovor = "k";
                         break;
                     #endregion
@@ -215,8 +213,6 @@ namespace KriptoLearn
                         if (zakrivanje) { premještajni.ZakrijPremještajnim(provjereniKljuč, dvostruki); }
                         else { premještajni.RaskrijPremještajnim(provjereniKljuč, dvostruki); }
 
-                        premještajni.jasnopis.Clear();
-                        premještajni.zakritak.Clear();
                         provjereniKljuč.Clear();
                         odgovor = "k";
                         break;
@@ -238,8 +234,6 @@ namespace KriptoLearn
                         if (zakrivanje) { složeni.ZakrijSloženim(provjereniKljuč); IspisRješenja(zakrivanje, složeni.jasnopis, složeni.zakritak); }
                         else { složeni.RaskrijSloženim(provjereniKljuč); }
 
-                        složeni.jasnopis.Clear();
-                        složeni.zakritak.Clear();
                         provjereniKljuč.Clear();
                         odgovor = "k";
                         break;
@@ -263,8 +257,6 @@ namespace KriptoLearn
 
                         IspisRješenja(zakrivanje, kvadratnaŠifra.jasnopis, kvadratnaŠifra.zakritak);
 
-                        kvadratnaŠifra.jasnopis.Clear();
-                        kvadratnaŠifra.zakritak.Clear();
                         provjereniKljuč.Clear();
                         odgovor = "k";
                         break;

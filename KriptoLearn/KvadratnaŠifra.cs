@@ -28,7 +28,7 @@ namespace KriptoLearn
                 else { noviKljuč.Add(poruka[i]); }
             }
         }
-        private void IzračunIndeksa(List<string> poruka, bool zakrivanje)
+        private void IzračunIndeksa(List<string> poruka, List<string> rješenje, bool zakrivanje)
         {
             for (int i = 0; i < poruka.Count(); i++)
             {
@@ -36,17 +36,16 @@ namespace KriptoLearn
                 {
                     int indeks;
                     int indeks1 = jasnopisniSlovored.IndexOf(poruka[i]);
-                    Console.WriteLine("{0}:{1}", poruka[i], noviKljuč[i]);
-                    int indeks2 = jasnopisniSlovored.IndexOf(noviKljuč[i]); //NE RADI
+                    int indeks2 = jasnopisniSlovored.IndexOf(noviKljuč[i]);
                     if (zakrivanje) { indeks = (indeks1 + indeks2) % 30; }
                     else
                     {
                         indeks = indeks1 - indeks2;
                         if (indeks < 0) { indeks += 30; }
                     }
-                    zakritak.Add(jasnopisniSlovored[indeks]);
+                    rješenje.Add(jasnopisniSlovored[indeks]);
                 }
-                else { zakritak.Add(poruka[i]); }
+                else { rješenje.Add(poruka[i]); }
             }
         }
         private void IspisPrimjeraIzračuna(List<string> poruka, bool zakrivanje)
@@ -71,7 +70,7 @@ namespace KriptoLearn
             #endregion
 
             KreiranjeNovogKljuča(jasnopis, ključ);
-            IzračunIndeksa(jasnopis, zakrivanje);
+            IzračunIndeksa(jasnopis, zakritak, zakrivanje);
 
             Console.WriteLine("Ispis jasnopisa i ključa:");
             IspisNiza(jasnopis);
@@ -92,18 +91,13 @@ namespace KriptoLearn
             #endregion
 
             KreiranjeNovogKljuča(zakritak, ključ);
-            //test
-            IspisNiza(zakritak);
-            IspisNiza(noviKljuč);
-
-            IzračunIndeksa(zakritak, zakrivanje);
+            IzračunIndeksa(zakritak, jasnopis, zakrivanje);
 
             Console.WriteLine("Ispis zakritka i ključa:");
             IspisNiza(zakritak);
             IspisNiza(noviKljuč);
 
             IspisPrimjeraIzračuna(zakritak, zakrivanje);
-            //noviKljuč.Clear();
         }
     }
 }
