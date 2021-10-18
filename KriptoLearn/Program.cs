@@ -370,59 +370,25 @@ namespace KriptoLearn
                     //    break;
                     //#endregion
 
-                    //#region RSA
-                    //case "r":
-                    //    RSA rsa = new RSA();
-                    //    Console.WriteLine("Odabrali ste RSA.");
-                    //    //unos javnog ključa
-                    //    Console.Write("Unesite vrijednost javnog ključa (e): ");
-                    //    string proizvoljnoe = Console.ReadLine();
-                    //    while (!proizvoljnoe.All(char.IsDigit) || proizvoljnoe.Length == 0)
-                    //    {
-                    //        Console.WriteLine("Niste unijeli broj.");
-                    //        Console.Write("Unesite vrijednost javnog ključa (e): ");
-                    //        proizvoljnoe = Console.ReadLine();
-                    //    }
-                    //    rsa.e = int.Parse(proizvoljnoe);
+                    #region RSA
+                    case "r":
+                        RSA rsa = new RSA();
+                        Console.WriteLine("Odabrali ste RSA.");
 
-                    //    //unos javnog djelitelja
-                    //    Console.Write("Unesite vrijednost javnog djelitelja (n): ");
-                    //    string proizvoljnon = Console.ReadLine();
-                    //    while (!proizvoljnon.All(char.IsDigit) && int.Parse(proizvoljnon) < 3)
-                    //    {
-                    //        Console.WriteLine("Niste unijeli valjanu vrijednost. [>3]");
-                    //        Console.Write("Unesite vrijednost javnog djelitelja (n): ");
-                    //        proizvoljnon = Console.ReadLine();
-                    //    }
-                    //    rsa.n = int.Parse(proizvoljnon);
+                        rsa.UnosIProvjeraJavnogKljučaE();
+                        rsa.UnosIProvjeraJavnogDjeliteljaN();
 
-                    //    //zakrivanje ili raskrivanje
-                    //    odabir = provjeraPostupka();
+                        zakrivanje = ProvjeraPostupka();
+                        UnosIProvjeraPoruke(rsa, zakrivanje);
+                        if (KorisnikOdustao(poruka)) { odgovor = "k"; break; }
+                        if (zakrivanje) { rsa.ZakrijRSA(); }
+                        else { rsa.RaskrijRSA(); }
+                        IspisRješenja(zakrivanje, rsa.jasnopis, rsa.zakritak);
 
-                    //    //unos poruke
-                    //    Console.Write("Unesite poruku: ");
-                    //    jasnopis = Console.ReadLine();
-                    //    //korisnik odustaje od programa
-                    //    if (jasnopis == "x" || jasnopis == "X")
-                    //    {
-                    //        odgovor = "k";
-                    //        break;
-                    //    }
-                    //    poruka = NormalizacijaDvoglasa(jasnopis);
-                    //    while (poruka.Count() == 0)
-                    //    {
-                    //        Console.WriteLine("Pogreška u formatu poruke.");
-                    //        Console.Write("Unesite poruku: ");
-                    //        jasnopis = Console.ReadLine();
-                    //        poruka = NormalizacijaDvoglasa(jasnopis);
-                    //    }
-                    //    if (odabir == "z") { rsa.Zakrij(poruka); }
-                    //    else { rsa.Raskrij(poruka); }
-
-                    //    poruka.Clear();
-                    //    odgovor = "k";
-                    //    break;
-                    //#endregion
+                        provjereniKljuč.Clear();
+                        odgovor = "k";
+                        break;
+                    #endregion
 
                     #region kraj
                     case "k":
