@@ -8,6 +8,23 @@ using System.IO;
 
 namespace KriptoLearn
 {
+    class DES
+    {
+        private string jasnopis;
+        MemoryStream memory = new MemoryStream();
+        //byte[] bytearray = Encoding.UTF8.GetBytes(jasnopis);
+        public static MemoryStream GenerateStreamFromString(string value)
+        {
+            return new MemoryStream(Encoding.UTF8.GetBytes(value ?? ""));
+        }
+        public void ZakrijDESom()
+        {
+            jasnopis = "Hello World";
+            memory = GenerateStreamFromString(jasnopis);
+
+            //DES des = new DESCryptoServiceProvider();
+        }
+    }
     //class DES
     //{
     //    private List<string> ključ = new List<string>();
@@ -52,101 +69,101 @@ namespace KriptoLearn
     //        #endregion
     //    }
     //}
-    class Des
-    {
-        //public static byte[] EncryptTextToMemory(string Data, byte[] Key, byte[] IV)
-        //{
-        //    try
-        //    {
-        //        // Create a MemoryStream.
-        //        MemoryStream mStream = new MemoryStream();
+    //class Des
+    //{
+    //    //public static byte[] EncryptTextToMemory(string Data, byte[] Key, byte[] IV)
+    //    //{
+    //    //    try
+    //    //    {
+    //    //        // Create a MemoryStream.
+    //    //        MemoryStream mStream = new MemoryStream();
 
-        //        // Create a new DES object.
-        //        DES DESalg = DES.Create();
+    //    //        // Create a new DES object.
+    //    //        DES DESalg = DES.Create();
 
-        //        // Create a CryptoStream using the MemoryStream
-        //        // and the passed key and initialization vector (IV).
-        //        CryptoStream cStream = new CryptoStream(mStream,
-        //            DESalg.CreateEncryptor(Key, IV),
-        //            CryptoStreamMode.Write);
+    //    //        // Create a CryptoStream using the MemoryStream
+    //    //        // and the passed key and initialization vector (IV).
+    //    //        CryptoStream cStream = new CryptoStream(mStream,
+    //    //            DESalg.CreateEncryptor(Key, IV),
+    //    //            CryptoStreamMode.Write);
 
-        //        // Convert the passed string to a byte array.
-        //        byte[] toEncrypt = new ASCIIEncoding().GetBytes(Data);
+    //    //        // Convert the passed string to a byte array.
+    //    //        byte[] toEncrypt = new ASCIIEncoding().GetBytes(Data);
 
-        //        // Write the byte array to the crypto stream and flush it.
-        //        cStream.Write(toEncrypt, 0, toEncrypt.Length);
-        //        cStream.FlushFinalBlock();
+    //    //        // Write the byte array to the crypto stream and flush it.
+    //    //        cStream.Write(toEncrypt, 0, toEncrypt.Length);
+    //    //        cStream.FlushFinalBlock();
 
-        //        // Get an array of bytes from the
-        //        // MemoryStream that holds the
-        //        // encrypted data.
-        //        byte[] ret = mStream.ToArray();
+    //    //        // Get an array of bytes from the
+    //    //        // MemoryStream that holds the
+    //    //        // encrypted data.
+    //    //        byte[] ret = mStream.ToArray();
 
-        //        // Close the streams.
-        //        cStream.Close();
-        //        mStream.Close();
+    //    //        // Close the streams.
+    //    //        cStream.Close();
+    //    //        mStream.Close();
 
-        //        // Return the encrypted buffer.
-        //        return ret;
-        //    }
-        //    catch (CryptographicException e)
-        //    {
-        //        Console.WriteLine("Kriptografska greška: {0}", e.Message);
-        //        return null;
-        //    }
-        //}
+    //    //        // Return the encrypted buffer.
+    //    //        return ret;
+    //    //    }
+    //    //    catch (CryptographicException e)
+    //    //    {
+    //    //        Console.WriteLine("Kriptografska greška: {0}", e.Message);
+    //    //        return null;
+    //    //    }
+    //    //}
 
-        //public static string DecryptTextFromMemory(byte[] Data, byte[] Key, byte[] IV)
-        //{
-        //    try
-        //    {
-        //        // Create a new MemoryStream using the passed
-        //        // array of encrypted data.
-        //        MemoryStream msDecrypt = new MemoryStream(Data);
+    //    //public static string DecryptTextFromMemory(byte[] Data, byte[] Key, byte[] IV)
+    //    //{
+    //    //    try
+    //    //    {
+    //    //        // Create a new MemoryStream using the passed
+    //    //        // array of encrypted data.
+    //    //        MemoryStream msDecrypt = new MemoryStream(Data);
 
-        //        // Create a new DES object.
-        //        DES DESalg = DES.Create();
+    //    //        // Create a new DES object.
+    //    //        DES DESalg = DES.Create();
 
-        //        // Create a CryptoStream using the MemoryStream
-        //        // and the passed key and initialization vector (IV).
-        //        CryptoStream csDecrypt = new CryptoStream(msDecrypt,
-        //            DESalg.CreateDecryptor(Key, IV),
-        //            CryptoStreamMode.Read);
+    //    //        // Create a CryptoStream using the MemoryStream
+    //    //        // and the passed key and initialization vector (IV).
+    //    //        CryptoStream csDecrypt = new CryptoStream(msDecrypt,
+    //    //            DESalg.CreateDecryptor(Key, IV),
+    //    //            CryptoStreamMode.Read);
 
-        //        // Create buffer to hold the decrypted data.
-        //        byte[] fromEncrypt = new byte[Data.Length];
+    //    //        // Create buffer to hold the decrypted data.
+    //    //        byte[] fromEncrypt = new byte[Data.Length];
 
-        //        // Read the decrypted data out of the crypto stream
-        //        // and place it into the temporary buffer.
-        //        csDecrypt.Read(fromEncrypt, 0, fromEncrypt.Length);
+    //    //        // Read the decrypted data out of the crypto stream
+    //    //        // and place it into the temporary buffer.
+    //    //        csDecrypt.Read(fromEncrypt, 0, fromEncrypt.Length);
 
-        //        //Convert the buffer into a string and return it.
-        //        return new ASCIIEncoding().GetString(fromEncrypt);
-        //    }
-        //    catch (CryptographicException e)
-        //    {
-        //        Console.WriteLine("Kriptografska greška: {0}", e.Message);
-        //        return null;
-        //    }
-        //}
+    //    //        //Convert the buffer into a string and return it.
+    //    //        return new ASCIIEncoding().GetString(fromEncrypt);
+    //    //    }
+    //    //    catch (CryptographicException e)
+    //    //    {
+    //    //        Console.WriteLine("Kriptografska greška: {0}", e.Message);
+    //    //        return null;
+    //    //    }
+    //    //}
 
-        public void Enkriptiraj(string ulaz)
-        {
-            //DES des = DES.Create();
-            //byte[] ključ = des.Key;
-            //des.CreateEncryptor(ključ, des.IV);
-            long tDuljina = 0;
-            long konDuljina = ulaz.Length;
-            int duljina;
-            DES des = new DESCryptoServiceProvider();
-            byte[] ulazByte = Encoding.ASCII.GetBytes(ulaz);
-            MemoryStream poruka = new MemoryStream(ulazByte);
-            CryptoStream zakritak = new CryptoStream(poruka, des.CreateEncryptor(des.Key, des.IV), CryptoStreamMode.Write);
-            while (tDuljina<konDuljina)
-            {
-                //duljina = ulazByte.
-                //zakritak.Write()
-            }
-        }
-    }
+    //    public void Enkriptiraj(string ulaz)
+    //    {
+    //        //DES des = DES.Create();
+    //        //byte[] ključ = des.Key;
+    //        //des.CreateEncryptor(ključ, des.IV);
+    //        long tDuljina = 0;
+    //        long konDuljina = ulaz.Length;
+    //        int duljina;
+    //        DES des = new DESCryptoServiceProvider();
+    //        byte[] ulazByte = Encoding.ASCII.GetBytes(ulaz);
+    //        MemoryStream poruka = new MemoryStream(ulazByte);
+    //        CryptoStream zakritak = new CryptoStream(poruka, des.CreateEncryptor(des.Key, des.IV), CryptoStreamMode.Write);
+    //        while (tDuljina<konDuljina)
+    //        {
+    //            //duljina = ulazByte.
+    //            //zakritak.Write()
+    //        }
+    //    }
+    //}
 }
