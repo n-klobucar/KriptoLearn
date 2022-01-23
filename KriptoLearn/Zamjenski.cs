@@ -9,7 +9,7 @@ namespace KriptoLearn
     class Zamjenski : KritopisniSustav
     {
         public List<string> zakritniSlovored = new List<string>();
-
+        
         void KreirajZakritniSlovoredBrojem(int broj)
         {
             Console.WriteLine("\njasnopisni slovored:");

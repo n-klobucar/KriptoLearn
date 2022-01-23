@@ -10,9 +10,11 @@ namespace KriptoLearn
 {
     class Des : KritopisniSustav
     {
-        public static string Encrypt(string originalString)
+        public string sKljuč;
+        public string sIV;
+        public void Zakrij(string poruka)
         {
-            if (String.IsNullOrEmpty(originalString))
+            if (String.IsNullOrEmpty(poruka))
             {
                 throw new ArgumentNullException
                        ("The string which needs to be encrypted can not be null.");
@@ -30,17 +32,20 @@ namespace KriptoLearn
 
             DESCryptoServiceProvider cryptoProvider = new DESCryptoServiceProvider();
             MemoryStream memoryStream = new MemoryStream();
-            CryptoStream cryptoStream = new CryptoStream(memoryStream,
-                cryptoProvider.CreateEncryptor(key, iv), CryptoStreamMode.Write);
+            CryptoStream cryptoStream = new CryptoStream(memoryStream, cryptoProvider.CreateEncryptor(key, iv), CryptoStreamMode.Write);
             StreamWriter writer = new StreamWriter(cryptoStream);
-            writer.Write(originalString);
+            writer.Write(poruka);
             writer.Flush();
             cryptoStream.FlushFinalBlock();
             writer.Flush();
-            return Convert.ToBase64String(memoryStream.GetBuffer(), 0, (int)memoryStream.Length);
+            string rezultat = Convert.ToBase64String(memoryStream.GetBuffer(), 0, (int)memoryStream.Length);
+            foreach (char znak in rezultat) //FUNKCIJA KOJA SAMA ODLUČUJE JASNOPIS ILI ZAKRITAK
+            {
+                zakritak.Add(znak.ToString());
+            }
         }
 
-        public static string Decrypt(string cryptedString, string string_key, string string_iv)
+        public void Raskrij(string cryptedString)
         {
             if (String.IsNullOrEmpty(cryptedString))
             {
@@ -48,16 +53,18 @@ namespace KriptoLearn
                    ("The string which needs to be decrypted can not be null.");
             }
 
-            byte[] iv = Convert.FromBase64String(string_iv);
-            byte[] key = Convert.FromBase64String(string_key);
+            byte[] IV = Convert.FromBase64String(sIV);
+            byte[] ključ = Convert.FromBase64String(sKljuč);
 
             DESCryptoServiceProvider cryptoProvider = new DESCryptoServiceProvider();
-            MemoryStream memoryStream = new MemoryStream
-                    (Convert.FromBase64String(cryptedString));
-            CryptoStream cryptoStream = new CryptoStream(memoryStream,
-                cryptoProvider.CreateDecryptor(key, iv), CryptoStreamMode.Read);
+            MemoryStream memoryStream = new MemoryStream(Convert.FromBase64String(cryptedString));
+            CryptoStream cryptoStream = new CryptoStream(memoryStream, cryptoProvider.CreateDecryptor(ključ, IV), CryptoStreamMode.Read);
             StreamReader reader = new StreamReader(cryptoStream);
-            return reader.ReadToEnd();
+            string rezultat = reader.ReadToEnd();
+            foreach (char znak in rezultat)
+            {
+                jasnopis.Add(znak.ToString());
+            }
         }
     }
 }

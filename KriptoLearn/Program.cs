@@ -13,7 +13,7 @@ namespace KriptoLearn
         /// Pomoć pri učenju kritopisnih sustava
         /// </summary>
         /// <param name="args"></param>
-        static void Main(string[] args)
+        public void Main(string[] args)
         {
             //unicode u konzoli
             Console.OutputEncoding = Encoding.UTF8;
@@ -267,115 +267,25 @@ namespace KriptoLearn
                         Des des = new Des();
                         Console.WriteLine("Odabrali ste DES.");
 
-                        //zakrivanje ili raskrivanje
                         zakrivanje = ProvjeraPostupka();
 
-                        string porukades = "u wot m8?";
-                        string rez;
-                        if (zakrivanje) { rez = Des.Encrypt(porukades); }
-                        else { 
-                            //nek to sve bude field
-                            porukades = Console.ReadLine();
-                            string key = Console.ReadLine();
-                            string iv = Console.ReadLine();
-                            rez = Des.Decrypt(porukades, key, iv); }
+                        Console.WriteLine("Unesite poruku: ");
+                        poruka = Console.ReadLine();
 
-                        Console.WriteLine("Rezultat: {0}", rez);
+                        if (KorisnikOdustao(poruka)) { odgovor = "k"; break; }
 
-                        //    //Console.Write("Unesite poruku: ");
-                        //    //jasnopis = Console.ReadLine();
-                        //    ////korisnik odustaje od programa
-                        //    //if (jasnopis == "x" || jasnopis == "X")
-                        //    //{
-                        //    //    odgovor = "k";
-                        //    //    break;
-                        //    //}
-                        //    //poruka = NormalizacijaDvoglasa(jasnopis);
-                        //    //bool ascii = false;
-                        //    //foreach (string slovo in poruka)
-                        //    //{
-                        //    //    if (slovo == "Č" || slovo == "Ć"  || slovo == "Đ" || slovo == "Dž" || slovo == "Nj" || slovo == "Lj" || slovo == "Š" || slovo == "Ž")
-                        //    //    {
-                        //    //        ascii = true;
-                        //    //    }
-                        //    //}
-                        //    //if (ascii) { poruka.Clear(); }
-                        //    //while (poruka.Count() == 0)
-                        //    //{
-                        //    //    Console.WriteLine("Pogreška u formatu poruke.");
-                        //    //    Console.Write("Unesite poruku: ");
-                        //    //    jasnopis = Console.ReadLine();
-                        //    //    poruka = NormalizacijaDvoglasa(jasnopis);
-                        //    //}
-                        //    //des.Zakrij(poruka);
-                        //    #endregion
-                        //    DES des = DES.Create();
-                        //    Console.WriteLine("Odabrali ste DES.");
+                        if (zakrivanje) { des.Zakrij(poruka); }
+                        else 
+                        {
+                            Console.Write("Unesite ključ: ");
+                            des.sKljuč = Console.ReadLine();
+                            Console.Write("Unesite IV: ");
+                            des.sIV = Console.ReadLine();
+                            des.Raskrij(poruka); 
+                        }
 
-                        //    //zakrivanje ili raskrivanje
-                        //    odabir = provjeraPostupka();
+                        IspisRješenja(zakrivanje, des.jasnopis, des.zakritak);
 
-                        //    Console.Write("Unesite poruku koristeći slova engleske abecede: ");
-                        //    jasnopis = Console.ReadLine();
-
-                        //    //korisnik odustaje od programa
-                        //    if (jasnopis == "x" || jasnopis == "X")
-                        //    {
-                        //        odgovor = "k";
-                        //        break;
-                        //    }
-
-                        //    //provjera slova engleske abecede
-                        //    poruka = NormalizacijaDvoglasa(jasnopis);
-                        //    bool ascii = false;
-                        //    foreach (string slovo in poruka)
-                        //    {
-                        //        if (slovo == "Č" || slovo == "Ć" || slovo == "Đ" || slovo == "Dž" || slovo == "Nj" || slovo == "Lj" || slovo == "Š" || slovo == "Ž")
-                        //        {
-                        //            ascii = true;
-                        //        }
-                        //    }
-                        //    if (ascii) { poruka.Clear(); } //ako postoje slova koja nisu ASCII, onda obriši cijelu poruku
-
-                        //    while (poruka.Count() == 0)
-                        //    {
-                        //        Console.WriteLine("Pogreška u formatu poruke.");
-                        //        Console.Write("Unesite poruku koristeći SAMO znakove engleske abecede: ");
-                        //        jasnopis = Console.ReadLine();
-                        //        poruka = NormalizacijaDvoglasa(jasnopis);
-                        //    }
-
-                        //    //pretvaranje poruke iz liste u string
-                        //    string porukaString = "";
-                        //    foreach (string slovo in poruka)
-                        //    {
-                        //        porukaString += slovo;
-                        //    }
-
-                        //    //ako je odabrano zakrivanje
-                        //    if (odabir == "z")
-                        //    {
-
-                        //        string zakritak = string.Join(", ", porukaPodaci);
-                        //        string ključDES = string.Join("", des.Key);
-
-                        //        Console.WriteLine("Ispis ključa: {0}", ključDES);
-                        //        Console.WriteLine("Ispis zakritka:");
-                        //        Console.WriteLine(zakritak);
-                        //    }
-                        //    else
-                        //    {
-                        //        Console.Write("Unesite ključ: ");
-                        //        string ključDES = Console.ReadLine();
-                        //        byte[] ključdes = Encoding.UTF8.GetBytes(ključDES);
-                        //        des.Key = ključdes;
-
-                        //        byte[] porukaPodaci = Encoding.ASCII.GetBytes(porukaString);
-                        //        string raskritak = Des.DecryptTextFromMemory(porukaPodaci, des.Key, des.IV);
-                        //        Console.WriteLine("Ispis raskritka: {0}", raskritak);
-                        //        //string raskritak=Des.DecryptTextFromMemory(porukaPodaci, )
-                        //    }
-                        //    poruka.Clear();
                         odgovor = "k";
                         break;
                     #endregion
