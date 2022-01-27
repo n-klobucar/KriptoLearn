@@ -6,139 +6,98 @@ using System.Threading.Tasks;
 
 namespace KriptoLearn
 {
-    class KvadratnaŠifra
+    class KvadratnaŠifra : KritopisniSustav
     {
-        private List<string> abeceda = new List<string>() {"A", "B", "C", "Č", "Ć", "D", "Dž", "Đ", "E", "F", "G", "H", "I", "J", "K", "L", "Lj", "M", "N", "Nj", "O", "P", "R", "S", "Š", "T", "U", "V", "Z", "Ž"};
-        List<string> jasnopis = new List<string>();
-        public void Zakrij(List<string> ključ, List<string> poruka) //radi
+        List<string> noviKljuč = new List<string>();
+        private void IspisNiza(List<string> niz)
         {
-            List<string> noviKljuč = new List<string>();
-            List<string> zakritak = new List<string>();
-
-            //postupak zakrivanja kvadratnom šifrom
-            Console.WriteLine("\nPostupak zakrivanja kvadratnom šifrom sastoji se od:");
-            Console.WriteLine("1. Zapisivanja poruke,");
-            Console.WriteLine("2. Ispod poruke zapisujemo slova ključa dok ne dođemo do kraja poruke,");
-            Console.WriteLine("3. Zbrajamo cjelobrojne vrijednosti slova (indekse, A-0, Ž-29) koristeći modularnu aritmetiku (mod 30).\n");
-
+            foreach (string slovo in niz)
+            {
+                Console.Write(slovo + " ");
+            }
+            Console.WriteLine();
+        }
+        private void KreiranjeNovogKljuča(List<string> poruka, List<string> ključ)
+        {
+            noviKljuč.Clear();
             //upisivanje slova ključa dok ne dobijemo duljinu poruke
             int j = 0;
             for (int i = 0; i < poruka.Count(); i++)
             {
-                if (abeceda.IndexOf(poruka[i]) > -1) { noviKljuč.Add(ključ[j % ključ.Count()]); }
-                else { j--; noviKljuč.Add(poruka[i]); }
-                j++;
+                if (jasnopisniSlovored.IndexOf(poruka[i]) > -1) { noviKljuč.Add(ključ[j % ključ.Count()]); j++; }
+                else { noviKljuč.Add(poruka[i]); }
             }
-
-            //pribavljanje indeksa slova poruke, ključa te izračun indeksa zakritka
+        }
+        private void IzračunIndeksa(List<string> poruka, List<string> rješenje, bool zakrivanje)
+        {
             for (int i = 0; i < poruka.Count(); i++)
             {
-                if (abeceda.IndexOf(poruka[i]) > -1)
+                if (jasnopisniSlovored.IndexOf(poruka[i]) > -1)
                 {
-                    int indeks1 = abeceda.IndexOf(poruka[i]);
-                    int indeks2 = abeceda.IndexOf(noviKljuč[i]);
-                    int indeks = (indeks1 + indeks2) % 30; //formula za izračun indeksa
-                    zakritak.Add(abeceda[indeks]);
+                    int indeks;
+                    int indeks1 = jasnopisniSlovored.IndexOf(poruka[i]);
+                    int indeks2 = jasnopisniSlovored.IndexOf(noviKljuč[i]);
+                    if (zakrivanje) { indeks = (indeks1 + indeks2) % 30; }
+                    else
+                    {
+                        indeks = indeks1 - indeks2;
+                        if (indeks < 0) { indeks += 30; }
+                    }
+                    rješenje.Add(jasnopisniSlovored[indeks]);
                 }
-                else { zakritak.Add(poruka[i]); }
+                else { rješenje.Add(poruka[i]); }
             }
-
-            Console.WriteLine("Ispis jasnopisa i ključa:");
-            //ispis jasnopisa
-            foreach (string slovo in poruka)
-            {
-                Console.Write(slovo);
-            }
-            Console.WriteLine();
-            //ispis ključa
-            foreach (string slovo in noviKljuč)
-            {
-                Console.Write(slovo);
-            }
-            Console.WriteLine();
-
-            //ispis primjera izračuna
-            Console.WriteLine("\nPrimjer izračuna nekoliko znakova zakritka:");
+        }
+        private void IspisPrimjeraIzračuna(List<string> poruka, bool zakrivanje)
+        {
+            Console.WriteLine("\nPrimjer izračuna nekoliko znakova:");
             int krajnjiIndeks;
             if (poruka.Count() < 3) { krajnjiIndeks = poruka.Count(); }
             else { krajnjiIndeks = 3; }
             for (int i = 0; i < krajnjiIndeks; i++)
             {
-                Console.WriteLine("{0}->{1} + {2}->{3} mod(30) = {4}->{5}", poruka[i], abeceda.IndexOf(poruka[i]), noviKljuč[i], abeceda.IndexOf(noviKljuč[i]), abeceda.IndexOf(zakritak[i]), zakritak[i]);
-            }
-
-            //ispis zakritka
-            Console.WriteLine("\nIspis zakritka:");
-            foreach (string slovo in zakritak)
-            {
-                Console.Write(slovo);
+                if (zakrivanje) { Console.WriteLine("{0}->{1} + {2}->{3} mod(30) = {4}->{5}", poruka[i], jasnopisniSlovored.IndexOf(poruka[i]), noviKljuč[i], jasnopisniSlovored.IndexOf(noviKljuč[i]), jasnopisniSlovored.IndexOf(zakritak[i]), zakritak[i]); }
+                else { Console.WriteLine("{0}->{1} - {2}->{3} mod(30) = {4}->{5}", poruka[i], jasnopisniSlovored.IndexOf(poruka[i]), noviKljuč[i], jasnopisniSlovored.IndexOf(noviKljuč[i]), jasnopisniSlovored.IndexOf(jasnopis[i]), jasnopis[i]); }
             }
         }
-        public void Raskrij(List<string> ključ, List<string> poruka) //radi
+        public void ZakrijKvadratnomŠifrom(List<string> ključ, bool zakrivanje)
         {
-            List<string> noviKljuč = new List<string>();
-            List<string> jasnopis = new List<string>();
+            #region Upute
+            Console.WriteLine("\nPostupak zakrivanja kvadratnom šifrom sastoji se od:");
+            Console.WriteLine("1. Zapisivanja poruke,");
+            Console.WriteLine("2. Ispod poruke zapisujemo slova ključa dok ne dođemo do kraja poruke,");
+            Console.WriteLine("3. Zbrajamo cjelobrojne vrijednosti slova (indekse, A-0, Ž-29) koristeći modularnu aritmetiku (mod 30).\n");
+            #endregion
 
+            KreiranjeNovogKljuča(jasnopis, ključ);
+            IzračunIndeksa(jasnopis, zakritak, zakrivanje);
+
+            Console.WriteLine("Ispis jasnopisa i ključa:");
+            IspisNiza(jasnopis);
+            IspisNiza(noviKljuč);
+
+            IspisPrimjeraIzračuna(jasnopis, zakrivanje);
+
+            //noviKljuč.Clear();
+        }
+        public void RaskrijKvadratnomŠifrom(List<string> ključ, bool zakrivanje)
+        {
+            #region Upute
             //postupak raskrivanja kvadratnom šifrom
             Console.WriteLine("\nPostupak raskrivanja kvadratnom šifrom sastoji se od:");
             Console.WriteLine("1. Zapisivanja poruke,");
             Console.WriteLine("2. Ispod poruke zapisujemo slova ključa dok ne dođemo do kraja poruke,");
             Console.WriteLine("3. Oduzimamo cjelobrojne vrijednosti slova (indekse, A-0, Ž-29) te dodamo 30 (broj slova abecedi) i konačno mod(30). \n");
+            #endregion
 
-            //upisivanje slova ključa dok ne dobijemo duljinu poruke
-            int j = 0;
-            for (int i = 0; i < poruka.Count(); i++)
-            {
-                if (abeceda.IndexOf(poruka[i]) > -1) { noviKljuč.Add(ključ[j % ključ.Count()]); }
-                else { j--; noviKljuč.Add(poruka[i]); }
-                j++;
-            }
+            KreiranjeNovogKljuča(zakritak, ključ);
+            IzračunIndeksa(zakritak, jasnopis, zakrivanje);
 
-            //pribavljanje indeksa slova zakritka, ključa te izračun indeksa jasnopisa
-            for (int i = 0; i < poruka.Count(); i++)
-            {
-                if (abeceda.IndexOf(poruka[i]) > -1)
-                {
-                    int indeks1 = abeceda.IndexOf(poruka[i]);
-                    int indeks2 = abeceda.IndexOf(noviKljuč[i]);
-                    //formula za izračun indeksa
-                    int indeks = indeks1 - indeks2;
-                    if (indeks < 0) { indeks += 30; }
-                    jasnopis.Add(abeceda[indeks]);
-                }
-                else { jasnopis.Add(poruka[i]); }
-            }
+            Console.WriteLine("Ispis zakritka i ključa:");
+            IspisNiza(zakritak);
+            IspisNiza(noviKljuč);
 
-            Console.WriteLine("\nIspis zakritka i ključa:");
-            //ispis zakritka
-            foreach (string slovo in poruka)
-            {
-                Console.Write(slovo);
-            }
-            Console.WriteLine();
-            //ispis ključa
-            foreach (string slovo in noviKljuč)
-            {
-                Console.Write(slovo);
-            }
-            Console.WriteLine();
-
-            //ispis primjera izračuna
-            Console.WriteLine("\nPrimjer izračuna nekoliko znakova raskritka:");
-            int krajnjiIndeks;
-            if (poruka.Count() < 3) { krajnjiIndeks = poruka.Count(); }
-            else { krajnjiIndeks = 3; }
-            for (int i = 0; i < krajnjiIndeks; i++)
-            {
-                Console.WriteLine("{0}->{1} - {2}->{3} mod(30) = {4}->{5}", poruka[i], abeceda.IndexOf(poruka[i]), noviKljuč[i], abeceda.IndexOf(noviKljuč[i]), abeceda.IndexOf(jasnopis[i]), jasnopis[i]);
-            }
-
-            //ispis jasnopisa
-            Console.WriteLine("\nIspis jasnopisa:");
-            foreach (string slovo in jasnopis)
-            {
-                Console.Write(slovo);
-            }
+            IspisPrimjeraIzračuna(zakritak, zakrivanje);
         }
     }
 }
