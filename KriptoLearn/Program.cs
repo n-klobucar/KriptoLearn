@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Security.Cryptography;
 
 namespace KriptoLearn
 {
@@ -13,7 +12,7 @@ namespace KriptoLearn
         /// Pomoć pri učenju kritopisnih sustava
         /// </summary>
         /// <param name="args"></param>
-        public void Main(string[] args)
+        public static void Main(string[] args)
         {
             //unicode u konzoli
             Console.OutputEncoding = Encoding.UTF8;
@@ -25,7 +24,7 @@ namespace KriptoLearn
             //funkcije
             string Odabir()
             {
-                Console.WriteLine("Odaberite vrstu zakrivanja (z-zamjenski, p-premještajni, s-složeni, q-kvadratna šifra, d-DES*, r-RSA, x-izlaz)");
+                Console.WriteLine("Odaberite vrstu zakrivanja (z-zamjenski, p-premještajni, s-složeni, q-kvadratna šifra, d-DES, r-RSA, x-izlaz)");
                 string odabir = Console.ReadLine();
                 return odabir;
             }
@@ -275,7 +274,7 @@ namespace KriptoLearn
 
                         zakrivanje = ProvjeraPostupka();
 
-                        Console.WriteLine("Unesite poruku: ");
+                        Console.Write("Unesite poruku: ");
                         poruka = Console.ReadLine();
 
                         if (KorisnikOdustao(poruka)) { odgovor = "k"; break; }

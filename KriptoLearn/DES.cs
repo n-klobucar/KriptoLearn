@@ -14,7 +14,7 @@ namespace KriptoLearn
         public string sIV;
         public void Zakrij(string jasnopisnaPoruka)
         {
-            if (String.IsNullOrEmpty(jasnopisnaPoruka)) { throw new ArgumentNullException("Poruka ne smije biti dulljine 0."); }
+            if (String.IsNullOrEmpty(jasnopisnaPoruka)) { throw new ArgumentNullException("Poruka ne smije biti duljine 0."); }
 
             DES DESalg = DES.Create();
             byte[] iv = DESalg.IV;
@@ -23,7 +23,7 @@ namespace KriptoLearn
             string string_iv = Convert.ToBase64String(iv);
             string string_ključ = Convert.ToBase64String(ključ);
             Console.WriteLine("IV:{0}" + "<--kraj iv", string_iv);
-            Console.WriteLine("Key:{0}" + "<--kraj ključa", string_ključ);
+            Console.WriteLine("Ključ:{0}" + "<--kraj ključa", string_ključ);
 
             DESCryptoServiceProvider cryptoProvider = new DESCryptoServiceProvider();
             MemoryStream memoryStream = new MemoryStream();
