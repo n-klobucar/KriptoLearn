@@ -176,14 +176,7 @@ namespace KriptoLearn
 
                         provjereniKljuč = UnosIProvjeraKljuča();
                         if (KorisnikOdustao(provjereniKljuč[0])) { odgovor = "k"; break; }
-                        if (provjereniKljuč.Count() == 1)
-                        {
-<<<<<<< HEAD
-                            Console.WriteLine("Pogreška u formatu poruke.");
-                            Console.Write("Unesite poruku: ");
-                            jasnopis = Console.ReadLine();
-                            poruka = NormalizacijaDvoglasa(jasnopis);
-                        }
+                        
 
                         Console.Write("Unesite broj ili ključ za pomak: ");
                         string unosZamjenski = Console.ReadLine();
@@ -192,12 +185,9 @@ namespace KriptoLearn
                         {
                             odgovor = "k";
                             break;
-=======
                             int pomak = int.Parse(provjereniKljuč[0]);
                             if (zakrivanje) { zamjenski.ZakrijZamjenskim(zamjenski.jasnopis, pomak); }
                             else { zamjenski.RaskrijZamjenskim(zamjenski.zakritak, pomak); }
-
->>>>>>> cleancode
                         }
                         else
                         {
