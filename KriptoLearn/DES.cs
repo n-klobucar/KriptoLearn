@@ -22,8 +22,8 @@ namespace KriptoLearn
 
             string string_iv = Convert.ToBase64String(iv);
             string string_ključ = Convert.ToBase64String(ključ);
-            Console.WriteLine("IV:{0}" + "<--kraj iv", string_iv);
-            Console.WriteLine("Ključ:{0}" + "<--kraj ključa", string_ključ);
+            Console.WriteLine("IV:{0}", string_iv);
+            Console.WriteLine("Ključ:{0}", string_ključ);
 
             DESCryptoServiceProvider cryptoProvider = new DESCryptoServiceProvider();
             MemoryStream memoryStream = new MemoryStream();
