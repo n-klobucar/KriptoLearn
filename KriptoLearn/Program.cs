@@ -175,24 +175,35 @@ namespace KriptoLearn
 
                         provjereniKljuč = UnosIProvjeraKljuča();
                         if (KorisnikOdustao(provjereniKljuč[0])) { odgovor = "k"; break; }
-                        
 
-                        Console.Write("Unesite broj ili ključ za pomak: ");
-                        string unosZamjenski = Console.ReadLine();
+
+                        //Console.Write("Unesite broj ili ključ za pomak: ");
+                        //string unosZamjenski = Console.ReadLine();
                         //korisnik odustaje od programa
-                        if (unosZamjenski == "x" || unosZamjenski == "X")
+                        try
                         {
-                            odgovor = "k";
-                            break;
                             int pomak = int.Parse(provjereniKljuč[0]);
                             if (zakrivanje) { zamjenski.ZakrijZamjenskim(zamjenski.jasnopis, pomak); }
                             else { zamjenski.RaskrijZamjenskim(zamjenski.zakritak, pomak); }
                         }
-                        else
+                        catch (Exception)
                         {
                             if (zakrivanje) { zamjenski.ZakrijZamjenskim(zamjenski.jasnopis, provjereniKljuč); }
                             else { zamjenski.RaskrijZamjenskim(zamjenski.zakritak, provjereniKljuč); }
                         }
+                        //if (provjereniKljuč[0] == "x" || provjereniKljuč[0] == "X")
+                        //{
+                        //    odgovor = "k";
+                        //    break;
+                        //    int pomak = int.Parse(provjereniKljuč[0]);
+                        //    if (zakrivanje) { zamjenski.ZakrijZamjenskim(zamjenski.jasnopis, pomak); }
+                        //    else { zamjenski.RaskrijZamjenskim(zamjenski.zakritak, pomak); }
+                        //}
+                        //else
+                        //{
+                        //    if (zakrivanje) { zamjenski.ZakrijZamjenskim(zamjenski.jasnopis, provjereniKljuč); }
+                        //    else { zamjenski.RaskrijZamjenskim(zamjenski.zakritak, provjereniKljuč); }
+                        //}
 
                         IspisRješenja(zakrivanje, zamjenski.jasnopis, zamjenski.zakritak);
 

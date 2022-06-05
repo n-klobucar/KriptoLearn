@@ -144,7 +144,6 @@ namespace KriptoLearn
             UpisivanjeStupacaUListu();
             SpajanjeRedoslijedaStupacaSBrojevima();
             PohranaZakritka();
-            //IspisZakritka();
         }
         private void AlgoritamRaskrivanja()
         {
@@ -209,7 +208,7 @@ namespace KriptoLearn
             AlgoritamZakrivanja();
 
             if (dvostruki) { Console.WriteLine("\n\nOdabrali ste dvostruki pa ponavljam postupak.\n"); jasnopis.Clear(); foreach (string slovo in zakritak) { jasnopis.Add(slovo); } zakritak.Clear(); poredak.Clear(); AlgoritamZakrivanja(); }
-            else { IspisZakritka(); }
+            IspisZakritka();
         }
         public void RaskrijPremještajnim(List<string> ključ, bool dvostruki = false, bool složeni = false) 
         {
