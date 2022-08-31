@@ -11,7 +11,7 @@ namespace KriptoLearn
         /// <summary>
         /// Pomoć pri učenju kritopisnih sustava
         /// </summary>
-        /// <param name="args"></param>
+        
         public static void Main(string[] args)
         {
             //unicode u konzoli
@@ -160,7 +160,7 @@ namespace KriptoLearn
             }
 
             odgovor = Odabir().ToLower();
-            do
+            while (odgovor != "x")
             {
                 switch (odgovor)
                 {
@@ -176,10 +176,6 @@ namespace KriptoLearn
                         provjereniKljuč = UnosIProvjeraKljuča();
                         if (KorisnikOdustao(provjereniKljuč[0])) { odgovor = "k"; break; }
 
-
-                        //Console.Write("Unesite broj ili ključ za pomak: ");
-                        //string unosZamjenski = Console.ReadLine();
-                        //korisnik odustaje od programa
                         try
                         {
                             int pomak = int.Parse(provjereniKljuč[0]);
@@ -191,19 +187,6 @@ namespace KriptoLearn
                             if (zakrivanje) { zamjenski.ZakrijZamjenskim(zamjenski.jasnopis, provjereniKljuč); }
                             else { zamjenski.RaskrijZamjenskim(zamjenski.zakritak, provjereniKljuč); }
                         }
-                        //if (provjereniKljuč[0] == "x" || provjereniKljuč[0] == "X")
-                        //{
-                        //    odgovor = "k";
-                        //    break;
-                        //    int pomak = int.Parse(provjereniKljuč[0]);
-                        //    if (zakrivanje) { zamjenski.ZakrijZamjenskim(zamjenski.jasnopis, pomak); }
-                        //    else { zamjenski.RaskrijZamjenskim(zamjenski.zakritak, pomak); }
-                        //}
-                        //else
-                        //{
-                        //    if (zakrivanje) { zamjenski.ZakrijZamjenskim(zamjenski.jasnopis, provjereniKljuč); }
-                        //    else { zamjenski.RaskrijZamjenskim(zamjenski.zakritak, provjereniKljuč); }
-                        //}
 
                         IspisRješenja(zakrivanje, zamjenski.jasnopis, zamjenski.zakritak);
 
@@ -268,7 +251,7 @@ namespace KriptoLearn
                         provjereniKljuč = UnosIProvjeraKljuča();
                         if (KorisnikOdustao(provjereniKljuč.First())) { odgovor = "k"; break; }
 
-                        if (zakrivanje) { kvadratnaŠifra.ZakrijKvadratnomŠifrom(provjereniKljuč,zakrivanje); }
+                        if (zakrivanje) { kvadratnaŠifra.ZakrijKvadratnomŠifrom(provjereniKljuč, zakrivanje); }
                         else { kvadratnaŠifra.RaskrijKvadratnomŠifrom(provjereniKljuč, zakrivanje); }
 
                         IspisRješenja(zakrivanje, kvadratnaŠifra.jasnopis, kvadratnaŠifra.zakritak);
@@ -291,13 +274,13 @@ namespace KriptoLearn
                         if (KorisnikOdustao(poruka)) { odgovor = "k"; break; }
 
                         if (zakrivanje) { des.Zakrij(poruka); }
-                        else 
+                        else
                         {
                             Console.Write("Unesite ključ: ");
                             des.sKljuč = Console.ReadLine();
                             Console.Write("Unesite IV: ");
                             des.sIV = Console.ReadLine();
-                            des.Raskrij(poruka); 
+                            des.Raskrij(poruka);
                         }
 
                         IspisRješenja(zakrivanje, des.jasnopis, des.zakritak);

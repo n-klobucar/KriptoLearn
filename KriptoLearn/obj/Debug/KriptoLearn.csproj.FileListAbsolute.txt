@@ -5,3 +5,4 @@ C:\Users\kloby\source\repos\KriptoLearn\KriptoLearn\obj\Debug\KriptoLearn.csproj
 C:\Users\kloby\source\repos\KriptoLearn\KriptoLearn\obj\Debug\KriptoLearn.exe
 C:\Users\kloby\source\repos\KriptoLearn\KriptoLearn\obj\Debug\KriptoLearn.pdb
 C:\Users\kloby\source\repos\KriptoLearn\KriptoLearn\obj\Debug\KriptoLearn.csproj.AssemblyReference.cache
+C:\Users\kloby\source\repos\KriptoLearn\KriptoLearn\obj\Debug\KriptoLearn.csproj.SuggestedBindingRedirects.cache
