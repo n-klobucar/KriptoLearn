@@ -1,7 +1,9 @@
-C:\Users\kloby\source\repos\KriptoLearn\KriptoLearn\bin\Debug\KriptoLearn.exe.config
-C:\Users\kloby\source\repos\KriptoLearn\KriptoLearn\bin\Debug\KriptoLearn.exe
-C:\Users\kloby\source\repos\KriptoLearn\KriptoLearn\bin\Debug\KriptoLearn.pdb
-C:\Users\kloby\source\repos\KriptoLearn\KriptoLearn\obj\Debug\KriptoLearn.csproj.CoreCompileInputs.cache
-C:\Users\kloby\source\repos\KriptoLearn\KriptoLearn\obj\Debug\KriptoLearn.exe
-C:\Users\kloby\source\repos\KriptoLearn\KriptoLearn\obj\Debug\KriptoLearn.pdb
-C:\Users\kloby\source\repos\KriptoLearn\KriptoLearn\obj\Debug\KriptoLearn.csproj.AssemblyReference.cache
+C:/Users/kloby/source/repos/KriptoLearn/KriptoLearn/bin/Debug/KriptoLearn.exe.config
+C:/Users/kloby/source/repos/KriptoLearn/KriptoLearn/bin/Debug/KriptoLearn.exe
+C:/Users/kloby/source/repos/KriptoLearn/KriptoLearn/bin/Debug/KriptoLearn.pdb
+C:/Users/kloby/source/repos/KriptoLearn/KriptoLearn/obj/Debug/KriptoLearn.csproj.CoreCompileInputs.cache
+C:/Users/kloby/source/repos/KriptoLearn/KriptoLearn/obj/Debug/KriptoLearn.exe
+C:/Users/kloby/source/repos/KriptoLearn/KriptoLearn/obj/Debug/KriptoLearn.pdb
+C:/Users/kloby/source/repos/KriptoLearn/KriptoLearn/obj/Debug/KriptoLearn.csproj.AssemblyReference.cache
+/home/nxlinux/Sinklobizacija/zavrsni_faks/KriptoLearn/KriptoLearn/obj/Debug/KriptoLearn.exe
+/home/nxlinux/Sinklobizacija/zavrsni_faks/KriptoLearn/KriptoLearn/obj/Debug/KriptoLearn.pdb
